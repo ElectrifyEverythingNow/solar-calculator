@@ -10,7 +10,7 @@ import { RefineEstimate } from "@/components/RefineEstimate";
 import { QuoteForm } from "@/components/QuoteForm";
 import { calculateSolarEstimate } from "@/lib/calculations";
 import solarData from "@/data/solar-hours.json";
-import type { StateData, Utility } from "@/lib/types";
+import type { StateData, Utility, TiltAngle } from "@/lib/types";
 
 export default function Home() {
   const [selectedState, setSelectedState] = useState<string | null>(null);
@@ -18,6 +18,7 @@ export default function Home() {
   const [customRate, setCustomRate] = useState<number | null>(null);
   const [systemSizeW, setSystemSizeW] = useState(1200);
   const [systemCost, setSystemCost] = useState(2000);
+  const [tiltAngle, setTiltAngle] = useState<TiltAngle>(70);
   const [pvwattsKwh, setPvwattsKwh] = useState<number | null>(null);
 
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -31,12 +32,14 @@ export default function Home() {
     if (!stateInfo || ratePerKwh == null || ratePerKwh <= 0) return null;
     if (pvwattsKwh != null) {
       const annualSavings = pvwattsKwh * ratePerKwh;
+      const theoreticalMaxKwh = (systemSizeW / 1000) * 8760;
       return {
         annualKwh: pvwattsKwh,
         annualSavings,
         paybackYears: annualSavings === 0 ? Infinity : systemCost / annualSavings,
         tenYearSavings: annualSavings * 10 - systemCost,
         twentyYearSavings: annualSavings * 20 - systemCost,
+        capacityFactor: theoreticalMaxKwh > 0 ? pvwattsKwh / theoreticalMaxKwh : 0,
       };
     }
     return calculateSolarEstimate({
@@ -44,8 +47,9 @@ export default function Home() {
       systemCost,
       peakSunHours: stateInfo.peakSunHours,
       ratePerKwh,
+      tiltAngle,
     });
-  }, [stateInfo, ratePerKwh, systemSizeW, systemCost, pvwattsKwh]);
+  }, [stateInfo, ratePerKwh, systemSizeW, systemCost, tiltAngle, pvwattsKwh]);
 
   useEffect(() => {
     if (estimate && resultsRef.current) {
@@ -89,8 +93,10 @@ export default function Home() {
             <SystemInputs
               systemSizeW={systemSizeW}
               systemCost={systemCost}
+              tiltAngle={tiltAngle}
               onSystemSizeChange={setSystemSizeW}
               onSystemCostChange={setSystemCost}
+              onTiltAngleChange={setTiltAngle}
             />
           </div>
         </section>
@@ -98,7 +104,11 @@ export default function Home() {
 
       {estimate && selectedState && (
         <section ref={resultsRef} className="w-full max-w-2xl mx-auto px-4 pb-8">
-          <ResultsCard estimate={estimate} />
+          <ResultsCard
+            estimate={estimate}
+            systemSizeW={systemSizeW}
+            systemCost={systemCost}
+          />
           <div className="mt-4">
             <RefineEstimate
               systemSizeW={systemSizeW}

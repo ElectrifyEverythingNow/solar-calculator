@@ -1,15 +1,27 @@
 export function ColorLegend() {
   return (
-    <div className="flex items-center gap-2 text-xs text-zinc-500 mt-2">
-      <span>Less Sun</span>
-      <div
-        className="h-3 w-32 rounded-full"
-        style={{
-          background:
-            "linear-gradient(to right, #67e8f9, #a5f3fc, #fde68a, #fbbf24, #f97316, #dc2626)",
-        }}
-      />
-      <span>More Sun</span>
+    <div className="flex flex-col items-center gap-2 text-xs text-zinc-500 mt-2">
+      <div className="flex items-center gap-3 flex-wrap justify-center">
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-3 h-3 rounded-sm bg-green-500" />
+          <span>Legal — great ROI</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-3 h-3 rounded-sm bg-yellow-400" />
+          <span>Legal — longer payback</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-3 h-3 rounded-sm bg-green-200" />
+          <span>Legislation pending</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <span className="inline-block w-3 h-3 rounded-sm bg-zinc-300" />
+          <span>No legislation yet</span>
+        </div>
+      </div>
+      <p className="text-zinc-400">
+        Colors assume 1,200W DC at 70° tilt, $2,000 all-in cost
+      </p>
     </div>
   );
 }

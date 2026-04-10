@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -9,7 +9,10 @@ import {
 import { StateTooltip } from "./StateTooltip";
 import { ColorLegend } from "./ColorLegend";
 import solarData from "@/data/solar-hours.json";
-import type { StateData } from "@/lib/types";
+import legislationData from "@/data/legislation.json";
+import utilitiesData from "@/data/utilities.json";
+import type { StateData, LegislationInfo, Utility } from "@/lib/types";
+import { calculateSolarEstimate, getVerdict } from "@/lib/calculations";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
@@ -27,17 +30,63 @@ const FIPS_TO_STATE: Record<string, string> = {
   "56": "WY",
 };
 
-function getSunColor(peakSunHours: number): string {
-  const t = Math.max(0, Math.min(1, (peakSunHours - 3.0) / 3.5));
-  if (t < 0.25) {
-    return `hsl(${185 - t * 40}, 80%, ${75 - t * 20}%)`;
-  } else if (t < 0.5) {
-    return `hsl(${50 - (t - 0.25) * 40}, 90%, ${70 - (t - 0.25) * 15}%)`;
-  } else if (t < 0.75) {
-    return `hsl(${40 - (t - 0.5) * 80}, 92%, ${55 - (t - 0.5) * 10}%)`;
-  } else {
-    return `hsl(${20 - (t - 0.75) * 60}, 90%, ${50 - (t - 0.75) * 10}%)`;
+// Default assumptions for map coloring: 1200W DC at 70° balcony tilt, $2000 cost
+const DEFAULT_SYSTEM_W = 1200;
+const DEFAULT_COST = 2000;
+const DEFAULT_TILT = 70 as const;
+
+function getDefaultPayback(stateCode: string): number | null {
+  const state = (solarData as Record<string, StateData>)[stateCode];
+  const stateUtils = (utilitiesData as Record<string, { utilities: { name: string; ratePerKwh: number; customers: number }[] }>)[stateCode];
+  if (!state || !stateUtils?.utilities?.length) return null;
+  // Use the highest-customer-count utility as default rate
+  const topUtility = stateUtils.utilities.reduce((a, b) => a.customers > b.customers ? a : b);
+  const estimate = calculateSolarEstimate({
+    systemSizeW: DEFAULT_SYSTEM_W,
+    systemCost: DEFAULT_COST,
+    peakSunHours: state.peakSunHours,
+    ratePerKwh: topUtility.ratePerKwh,
+    tiltAngle: DEFAULT_TILT,
+  });
+  return estimate.paybackYears;
+}
+
+function getStateColor(stateCode: string): string {
+  const legis = (legislationData as Record<string, LegislationInfo>)[stateCode];
+  if (!legis) return "#e5e7eb";
+
+  // Gray out states with no legislation or failed bills
+  if (legis.status === "none" || legis.status === "failed") {
+    return "#d4d4d8"; // zinc-300
   }
+
+  const payback = getDefaultPayback(stateCode);
+  if (payback == null) return "#d4d4d8";
+
+  // For states with legislation: color by ROI
+  const verdict = getVerdict(payback);
+
+  // Enacted/approved states get full saturation; introduced states get lighter
+  const isActive = legis.status === "enacted" || legis.status === "approved";
+
+  switch (verdict) {
+    case "no-brainer":
+      return isActive ? "#22c55e" : "#bbf7d0"; // green-500 / green-200
+    case "great":
+      return isActive ? "#4ade80" : "#dcfce7"; // green-400 / green-100
+    case "worth-considering":
+      return isActive ? "#facc15" : "#fef9c3"; // yellow-400 / yellow-100
+    case "tough-roi":
+      return isActive ? "#f87171" : "#fecaca"; // red-400 / red-200
+  }
+}
+
+function getHoverColor(stateCode: string): string {
+  const legis = (legislationData as Record<string, LegislationInfo>)[stateCode];
+  if (!legis || legis.status === "none" || legis.status === "failed") {
+    return "#a1a1aa"; // zinc-400
+  }
+  return "#60a5fa"; // blue-400
 }
 
 interface USMapProps {
@@ -49,6 +98,9 @@ export function USMap({ selectedState, onSelectState }: USMapProps) {
   const [tooltip, setTooltip] = useState<{
     name: string;
     peakSunHours: number;
+    legislationLabel: string;
+    legislationStatus: string;
+    paybackYears: number | null;
     x: number;
     y: number;
   } | null>(null);
@@ -58,10 +110,14 @@ export function USMap({ selectedState, onSelectState }: USMapProps) {
       const stateCode = FIPS_TO_STATE[geo.id];
       if (!stateCode) return;
       const data = (solarData as Record<string, StateData>)[stateCode];
+      const legis = (legislationData as Record<string, LegislationInfo>)[stateCode];
       if (!data) return;
       setTooltip({
         name: data.name,
         peakSunHours: data.peakSunHours,
+        legislationLabel: legis?.label ?? "Unknown",
+        legislationStatus: legis?.status ?? "none",
+        paybackYears: getDefaultPayback(stateCode),
         x: event.clientX,
         y: event.clientY,
       });
@@ -94,13 +150,13 @@ export function USMap({ selectedState, onSelectState }: USMapProps) {
           {({ geographies }) =>
             geographies.map((geo) => {
               const stateCode = FIPS_TO_STATE[geo.id];
-              const data = stateCode
-                ? (solarData as Record<string, StateData>)[stateCode]
-                : null;
               const isSelected = stateCode === selectedState;
-              const fillColor = data
-                ? getSunColor(data.peakSunHours)
+              const fillColor = stateCode
+                ? getStateColor(stateCode)
                 : "#e5e7eb";
+              const hoverFill = stateCode
+                ? getHoverColor(stateCode)
+                : "#d1d5db";
 
               return (
                 <Geography
@@ -119,17 +175,13 @@ export function USMap({ selectedState, onSelectState }: USMapProps) {
                   style={{
                     default: { outline: "none" },
                     hover: {
-                      fill: data
-                        ? getSunColor(data.peakSunHours + 0.3)
-                        : "#d1d5db",
+                      fill: hoverFill,
                       stroke: "#1d4ed8",
                       strokeWidth: 1.5,
                       outline: "none",
                     },
                     pressed: {
-                      fill: data
-                        ? getSunColor(data.peakSunHours + 0.3)
-                        : "#d1d5db",
+                      fill: hoverFill,
                       outline: "none",
                     },
                   }}

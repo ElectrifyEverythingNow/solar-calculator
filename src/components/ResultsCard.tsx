@@ -4,6 +4,8 @@ import { VerdictBadge } from "./VerdictBadge";
 
 interface ResultsCardProps {
   estimate: SolarEstimate;
+  systemSizeW: number;
+  systemCost: number;
 }
 
 function formatDollars(value: number): string {
@@ -11,12 +13,13 @@ function formatDollars(value: number): string {
   return `$${value.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
 }
 
-export function ResultsCard({ estimate }: ResultsCardProps) {
+export function ResultsCard({ estimate, systemSizeW, systemCost }: ResultsCardProps) {
   const verdict = getVerdict(estimate.paybackYears);
   const paybackDisplay =
     estimate.paybackYears === Infinity
       ? "N/A"
       : `${estimate.paybackYears.toFixed(1)} years`;
+  const costPerWatt = systemSizeW > 0 ? systemCost / systemSizeW : 0;
 
   return (
     <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-6">
@@ -62,6 +65,15 @@ export function ResultsCard({ estimate }: ResultsCardProps) {
             {formatDollars(estimate.twentyYearSavings)}
           </p>
         </div>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-4 text-xs text-zinc-400 border-t border-zinc-100 pt-3">
+        <span>
+          Capacity factor: {(estimate.capacityFactor * 100).toFixed(1)}%
+        </span>
+        <span>
+          Cost: ${costPerWatt.toFixed(2)}/W DC
+        </span>
       </div>
     </div>
   );

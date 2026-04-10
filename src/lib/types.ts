@@ -3,6 +3,15 @@ export interface StateData {
   peakSunHours: number;
 }
 
+export type LegislationStatus = "enacted" | "approved" | "introduced" | "failed" | "none";
+
+export interface LegislationInfo {
+  status: LegislationStatus;
+  label: string;
+}
+
+export type TiltAngle = 30 | 45 | 70 | 90;
+
 export interface Utility {
   name: string;
   ratePerKwh: number;
@@ -20,6 +29,7 @@ export interface SolarEstimate {
   paybackYears: number;
   tenYearSavings: number;
   twentyYearSavings: number;
+  capacityFactor: number;
 }
 
 export interface QuoteRequest {

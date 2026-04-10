@@ -6,45 +6,56 @@ import {
 } from "./calculations";
 
 describe("calculateSolarEstimate", () => {
-  it("calculates correctly for Arizona with default system", () => {
+  it("calculates correctly for Arizona at 30° optimal tilt", () => {
     const result = calculateSolarEstimate({
       systemSizeW: 1200,
       systemCost: 2000,
       peakSunHours: 6.5,
       ratePerKwh: 0.13,
+      tiltAngle: 30,
     });
 
+    // 1.2 kW * 6.5 * 365 * 0.8 * 1.0 = 2277.6 kWh
     expect(result.annualKwh).toBeCloseTo(2277.6, 0);
     expect(result.annualSavings).toBeCloseTo(296.09, 0);
     expect(result.paybackYears).toBeCloseTo(6.75, 1);
     expect(result.tenYearSavings).toBeCloseTo(960.88, 0);
     expect(result.twentyYearSavings).toBeCloseTo(3921.76, 0);
+    expect(result.capacityFactor).toBeCloseTo(0.2166, 2);
   });
 
-  it("calculates correctly for Washington with expensive power", () => {
+  it("reduces production at 70° balcony tilt", () => {
+    const optimal = calculateSolarEstimate({
+      systemSizeW: 1200,
+      systemCost: 2000,
+      peakSunHours: 5.0,
+      ratePerKwh: 0.15,
+      tiltAngle: 30,
+    });
+    const balcony = calculateSolarEstimate({
+      systemSizeW: 1200,
+      systemCost: 2000,
+      peakSunHours: 5.0,
+      ratePerKwh: 0.15,
+      tiltAngle: 70,
+    });
+
+    // 70° should produce 75% of 30° optimal
+    expect(balcony.annualKwh).toBeCloseTo(optimal.annualKwh * 0.75, 0);
+    expect(balcony.paybackYears).toBeGreaterThan(optimal.paybackYears);
+  });
+
+  it("reduces production most at 90° vertical tilt", () => {
     const result = calculateSolarEstimate({
       systemSizeW: 1200,
       systemCost: 2000,
-      peakSunHours: 3.7,
-      ratePerKwh: 0.22,
-    });
-
-    expect(result.annualKwh).toBeCloseTo(1296.48, 0);
-    expect(result.annualSavings).toBeCloseTo(285.23, 0);
-    expect(result.paybackYears).toBeCloseTo(7.01, 1);
-  });
-
-  it("handles custom system size and cost", () => {
-    const result = calculateSolarEstimate({
-      systemSizeW: 800,
-      systemCost: 1500,
       peakSunHours: 5.0,
       ratePerKwh: 0.15,
+      tiltAngle: 90,
     });
 
-    expect(result.annualKwh).toBeCloseTo(1168, 0);
-    expect(result.annualSavings).toBeCloseTo(175.2, 0);
-    expect(result.paybackYears).toBeCloseTo(8.56, 1);
+    // 1.2 * 5.0 * 365 * 0.8 * 0.60 = 1051.2 kWh
+    expect(result.annualKwh).toBeCloseTo(1051.2, 0);
   });
 
   it("handles zero rate gracefully", () => {
@@ -53,11 +64,26 @@ describe("calculateSolarEstimate", () => {
       systemCost: 2000,
       peakSunHours: 5.0,
       ratePerKwh: 0,
+      tiltAngle: 30,
     });
 
     expect(result.annualSavings).toBe(0);
     expect(result.paybackYears).toBe(Infinity);
     expect(result.tenYearSavings).toBe(-2000);
+  });
+
+  it("includes capacity factor in result", () => {
+    const result = calculateSolarEstimate({
+      systemSizeW: 1200,
+      systemCost: 2000,
+      peakSunHours: 5.0,
+      ratePerKwh: 0.15,
+      tiltAngle: 70,
+    });
+
+    // CF = annualKwh / (1.2 * 8760)
+    expect(result.capacityFactor).toBeGreaterThan(0);
+    expect(result.capacityFactor).toBeLessThan(0.25);
   });
 });
 

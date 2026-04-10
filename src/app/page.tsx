@@ -162,15 +162,47 @@ export default function Home() {
         </section>
       )}
 
-      <footer className="w-full py-6 text-center text-sm text-zinc-400 border-t border-zinc-100 mt-auto">
+      {/* CTA banner */}
+      <section className="w-full bg-gradient-to-r from-green-600 to-emerald-500 py-8 px-4 text-center">
+        <p className="text-green-100 text-sm font-medium uppercase tracking-wider mb-2">
+          Free &amp; open source
+        </p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+          See all the tools we&apos;ve built to accelerate the electrification movement
+        </h2>
+        <p className="text-green-100 max-w-lg mx-auto mb-5">
+          Rebate calculators, sizing tools, and more — all free for homeowners and contractors.
+        </p>
+        <a
+          href="https://electrifyeverythingnow.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-6 py-3 rounded-lg hover:bg-green-50 transition-colors shadow-lg"
+        >
+          Explore ElectrifyEverythingNow.com
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+          </svg>
+        </a>
+      </section>
+
+      <footer className="w-full py-6 text-center text-sm text-zinc-400 border-t border-zinc-100">
         <p>
           Estimates are approximate. Actual production depends on panel orientation,
           shading, and local conditions.
         </p>
         <p className="mt-1">
-          &copy; {new Date().getFullYear()} ElectrifyEverythingNow.com
+          &copy; {new Date().getFullYear()}{" "}
+          <a
+            href="https://electrifyeverythingnow.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-green-600 underline underline-offset-2"
+          >
+            ElectrifyEverythingNow.com
+          </a>
         </p>
-        <p className="mt-2">
+        <p className="mt-1">
           Built by{" "}
           <a
             href="https://joshlake.ai"

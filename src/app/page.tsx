@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { Header } from "@/components/Header";
 import { USMap } from "@/components/USMap";
 import { UtilityPicker } from "@/components/UtilityPicker";
@@ -20,8 +20,25 @@ export default function Home() {
   const [systemCost, setSystemCost] = useState(2000);
   const [tiltAngle, setTiltAngle] = useState<TiltAngle>(70);
   const [pvwattsKwh, setPvwattsKwh] = useState<number | null>(null);
+  const [calcCount, setCalcCount] = useState<number | null>(null);
 
   const resultsRef = useRef<HTMLDivElement>(null);
+
+  // Fetch counter on mount
+  useEffect(() => {
+    fetch("/api/counter")
+      .then((r) => r.json())
+      .then((d) => setCalcCount(d.count))
+      .catch(() => {});
+  }, []);
+
+  // Increment counter
+  const incrementCounter = useCallback(() => {
+    fetch("/api/counter", { method: "POST" })
+      .then((r) => r.json())
+      .then((d) => setCalcCount(d.count))
+      .catch(() => {});
+  }, []);
 
   const ratePerKwh = selectedUtility?.ratePerKwh ?? customRate;
   const stateInfo = selectedState
@@ -62,6 +79,7 @@ export default function Home() {
     setSelectedUtility(null);
     setCustomRate(null);
     setPvwattsKwh(null);
+    incrementCounter();
   };
 
   const handleSelectUtility = (
@@ -70,6 +88,22 @@ export default function Home() {
   ) => {
     setSelectedUtility(utility);
     setCustomRate(rate);
+    incrementCounter();
+  };
+
+  const handleSystemSizeChange = (value: number) => {
+    setSystemSizeW(value);
+    incrementCounter();
+  };
+
+  const handleSystemCostChange = (value: number) => {
+    setSystemCost(value);
+    incrementCounter();
+  };
+
+  const handleTiltAngleChange = (value: TiltAngle) => {
+    setTiltAngle(value);
+    incrementCounter();
   };
 
   return (
@@ -94,9 +128,9 @@ export default function Home() {
               systemSizeW={systemSizeW}
               systemCost={systemCost}
               tiltAngle={tiltAngle}
-              onSystemSizeChange={setSystemSizeW}
-              onSystemCostChange={setSystemCost}
-              onTiltAngleChange={setTiltAngle}
+              onSystemSizeChange={handleSystemSizeChange}
+              onSystemCostChange={handleSystemCostChange}
+              onTiltAngleChange={handleTiltAngleChange}
             />
           </div>
         </section>
@@ -129,6 +163,11 @@ export default function Home() {
       )}
 
       <footer className="w-full py-6 text-center text-sm text-zinc-400 border-t border-zinc-100 mt-auto">
+        {calcCount != null && (
+          <p className="text-base font-semibold text-zinc-500 mb-2">
+            {calcCount.toLocaleString()} calculations and counting
+          </p>
+        )}
         <p>
           Estimates are approximate. Actual production depends on panel orientation,
           shading, and local conditions.

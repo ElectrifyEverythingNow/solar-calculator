@@ -1,32 +1,36 @@
-# Balcony aka "Plug In" Solar Calculator
+# Balcony Solar Feasibility Calculator
 
-See if plug-in solar makes sense for you. Part of [ElectrifyEverythingNow.com](https://electrifyeverythingnow.com).
+**Live:** [solar.electrifyeverythingnow.com](https://solar.electrifyeverythingnow.com)
 
-## Quick Start
+Find out if plug-in solar makes sense for your home. Pick your state, select your utility, and get an instant payback estimate — no signup required.
+
+Part of [ElectrifyEverythingNow.com](https://electrifyeverythingnow.com).
+
+## Features
+
+- Interactive US map color-coded by peak sun hours
+- Utility rate lookup for top providers in every state
+- Instant payback period, annual savings, and 10/20-year projections
+- Color-coded verdict (No Brainer / Great Investment / Worth Considering / Tough ROI)
+- Optional zip-code refinement via NREL PVWatts API
+- Mobile-friendly, no backend, no login
+
+## Local Development
 
 ```bash
 npm install --legacy-peer-deps
 npm run dev
 ```
 
-## Deploy to Cloudflare Pages
-
-1. Push this repo to GitHub
-2. In Cloudflare Dashboard > Pages > Create a project > Connect to Git
-3. Settings:
-   - **Build command:** `npm run build`
-   - **Build output directory:** `out`
-   - **Root directory:** `solar-calculator` (if in a monorepo)
-   - **Node.js version:** 20
-4. Environment variable: `NEXT_PUBLIC_NREL_API_KEY` = your free NREL API key from https://developer.nrel.gov/signup/
-5. Deploy
-
-To serve at `electrifyeverythingnow.com/solar-calculator`, configure a custom domain in Cloudflare Pages settings.
+Optionally set `NEXT_PUBLIC_NREL_API_KEY` with a free key from [developer.nrel.gov](https://developer.nrel.gov/signup/) to enable the "Refine My Estimate" feature.
 
 ## Stack
 
-- Next.js 16 (static export)
-- React 19 + Tailwind CSS v4
+- Next.js 16 (static export) + React 19
+- Tailwind CSS v4
 - react-simple-maps (US choropleth)
-- NREL PVWatts API (optional refinement)
-- No database, no backend
+- TypeScript, Vitest
+
+## Deployment
+
+Hosted on Cloudflare Pages. Pushes to `main` auto-deploy.

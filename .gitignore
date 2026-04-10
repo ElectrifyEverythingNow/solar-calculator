@@ -11,3 +11,5 @@ out/
 .env
 .env.local
 .env.production
+package-lock.json
+next-env.d.ts

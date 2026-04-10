@@ -1,0 +1,409 @@
+{
+  "AL": {
+    "state": "Alabama",
+    "utilities": [
+      { "name": "Alabama Power", "ratePerKwh": 0.145, "customers": 1530000 },
+      { "name": "TVA / Huntsville Utilities", "ratePerKwh": 0.118, "customers": 200000 },
+      { "name": "TVA / Decatur Utilities", "ratePerKwh": 0.120, "customers": 55000 }
+    ]
+  },
+  "AK": {
+    "state": "Alaska",
+    "utilities": [
+      { "name": "Chugach Electric", "ratePerKwh": 0.225, "customers": 92000 },
+      { "name": "Matanuska Electric", "ratePerKwh": 0.195, "customers": 63000 },
+      { "name": "Golden Valley Electric", "ratePerKwh": 0.248, "customers": 46000 }
+    ]
+  },
+  "AZ": {
+    "state": "Arizona",
+    "utilities": [
+      { "name": "Arizona Public Service (APS)", "ratePerKwh": 0.132, "customers": 1300000 },
+      { "name": "Salt River Project (SRP)", "ratePerKwh": 0.120, "customers": 1100000 },
+      { "name": "Tucson Electric Power", "ratePerKwh": 0.128, "customers": 440000 }
+    ]
+  },
+  "AR": {
+    "state": "Arkansas",
+    "utilities": [
+      { "name": "Entergy Arkansas", "ratePerKwh": 0.115, "customers": 720000 },
+      { "name": "Arkansas Electric Cooperatives", "ratePerKwh": 0.120, "customers": 500000 },
+      { "name": "Empire District Electric", "ratePerKwh": 0.118, "customers": 65000 }
+    ]
+  },
+  "CA": {
+    "state": "California",
+    "utilities": [
+      { "name": "Pacific Gas & Electric (PG&E)", "ratePerKwh": 0.310, "customers": 5500000 },
+      { "name": "Southern California Edison (SCE)", "ratePerKwh": 0.280, "customers": 5000000 },
+      { "name": "San Diego Gas & Electric (SDG&E)", "ratePerKwh": 0.360, "customers": 1500000 },
+      { "name": "Los Angeles DWP (LADWP)", "ratePerKwh": 0.190, "customers": 1500000 },
+      { "name": "Sacramento Municipal (SMUD)", "ratePerKwh": 0.155, "customers": 680000 }
+    ]
+  },
+  "CO": {
+    "state": "Colorado",
+    "utilities": [
+      { "name": "Xcel Energy", "ratePerKwh": 0.145, "customers": 1400000 },
+      { "name": "Colorado Springs Utilities", "ratePerKwh": 0.125, "customers": 250000 },
+      { "name": "Tri-State / Local Co-ops", "ratePerKwh": 0.130, "customers": 200000 },
+      { "name": "Black Hills Energy", "ratePerKwh": 0.138, "customers": 100000 }
+    ]
+  },
+  "CT": {
+    "state": "Connecticut",
+    "utilities": [
+      { "name": "Eversource", "ratePerKwh": 0.295, "customers": 1300000 },
+      { "name": "United Illuminating", "ratePerKwh": 0.280, "customers": 340000 }
+    ]
+  },
+  "DE": {
+    "state": "Delaware",
+    "utilities": [
+      { "name": "Delmarva Power", "ratePerKwh": 0.155, "customers": 310000 },
+      { "name": "Delaware Electric Co-op", "ratePerKwh": 0.142, "customers": 105000 }
+    ]
+  },
+  "FL": {
+    "state": "Florida",
+    "utilities": [
+      { "name": "Florida Power & Light (FPL)", "ratePerKwh": 0.140, "customers": 5700000 },
+      { "name": "Duke Energy Florida", "ratePerKwh": 0.138, "customers": 1900000 },
+      { "name": "Tampa Electric (TECO)", "ratePerKwh": 0.135, "customers": 800000 },
+      { "name": "JEA (Jacksonville)", "ratePerKwh": 0.128, "customers": 500000 }
+    ]
+  },
+  "GA": {
+    "state": "Georgia",
+    "utilities": [
+      { "name": "Georgia Power", "ratePerKwh": 0.135, "customers": 2700000 },
+      { "name": "Georgia EMCs (Co-ops)", "ratePerKwh": 0.128, "customers": 1800000 },
+      { "name": "City of Marietta", "ratePerKwh": 0.118, "customers": 40000 }
+    ]
+  },
+  "HI": {
+    "state": "Hawaii",
+    "utilities": [
+      { "name": "Hawaiian Electric (HECO)", "ratePerKwh": 0.390, "customers": 300000 },
+      { "name": "Maui Electric", "ratePerKwh": 0.410, "customers": 72000 },
+      { "name": "Hawaii Electric Light", "ratePerKwh": 0.400, "customers": 88000 }
+    ]
+  },
+  "ID": {
+    "state": "Idaho",
+    "utilities": [
+      { "name": "Idaho Power", "ratePerKwh": 0.105, "customers": 600000 },
+      { "name": "Avista", "ratePerKwh": 0.098, "customers": 120000 },
+      { "name": "Rocky Mountain Power", "ratePerKwh": 0.108, "customers": 75000 }
+    ]
+  },
+  "IL": {
+    "state": "Illinois",
+    "utilities": [
+      { "name": "ComEd (Commonwealth Edison)", "ratePerKwh": 0.170, "customers": 4000000 },
+      { "name": "Ameren Illinois", "ratePerKwh": 0.148, "customers": 1200000 },
+      { "name": "MidAmerican Energy", "ratePerKwh": 0.125, "customers": 150000 }
+    ]
+  },
+  "IN": {
+    "state": "Indiana",
+    "utilities": [
+      { "name": "Duke Energy Indiana", "ratePerKwh": 0.145, "customers": 850000 },
+      { "name": "Indiana Michigan Power (AEP)", "ratePerKwh": 0.148, "customers": 600000 },
+      { "name": "Indianapolis Power & Light", "ratePerKwh": 0.138, "customers": 500000 }
+    ]
+  },
+  "IA": {
+    "state": "Iowa",
+    "utilities": [
+      { "name": "MidAmerican Energy", "ratePerKwh": 0.118, "customers": 780000 },
+      { "name": "Alliant Energy (Interstate Power)", "ratePerKwh": 0.142, "customers": 500000 }
+    ]
+  },
+  "KS": {
+    "state": "Kansas",
+    "utilities": [
+      { "name": "Evergy (Westar/KCP&L)", "ratePerKwh": 0.135, "customers": 750000 },
+      { "name": "Kansas Electric Co-ops", "ratePerKwh": 0.128, "customers": 300000 },
+      { "name": "Empire District", "ratePerKwh": 0.130, "customers": 60000 }
+    ]
+  },
+  "KY": {
+    "state": "Kentucky",
+    "utilities": [
+      { "name": "Louisville Gas & Electric (LG&E)", "ratePerKwh": 0.115, "customers": 420000 },
+      { "name": "Kentucky Utilities (KU)", "ratePerKwh": 0.118, "customers": 560000 },
+      { "name": "Duke Energy Kentucky", "ratePerKwh": 0.128, "customers": 150000 }
+    ]
+  },
+  "LA": {
+    "state": "Louisiana",
+    "utilities": [
+      { "name": "Entergy Louisiana", "ratePerKwh": 0.118, "customers": 1100000 },
+      { "name": "Cleco", "ratePerKwh": 0.112, "customers": 300000 },
+      { "name": "SWEPCO", "ratePerKwh": 0.120, "customers": 200000 }
+    ]
+  },
+  "ME": {
+    "state": "Maine",
+    "utilities": [
+      { "name": "Central Maine Power (CMP)", "ratePerKwh": 0.255, "customers": 640000 },
+      { "name": "Versant Power", "ratePerKwh": 0.228, "customers": 160000 }
+    ]
+  },
+  "MD": {
+    "state": "Maryland",
+    "utilities": [
+      { "name": "Baltimore Gas & Electric (BGE)", "ratePerKwh": 0.165, "customers": 1300000 },
+      { "name": "Pepco", "ratePerKwh": 0.158, "customers": 600000 },
+      { "name": "Delmarva Power", "ratePerKwh": 0.152, "customers": 210000 }
+    ]
+  },
+  "MA": {
+    "state": "Massachusetts",
+    "utilities": [
+      { "name": "National Grid", "ratePerKwh": 0.310, "customers": 1350000 },
+      { "name": "Eversource", "ratePerKwh": 0.305, "customers": 1500000 },
+      { "name": "Unitil", "ratePerKwh": 0.290, "customers": 110000 }
+    ]
+  },
+  "MI": {
+    "state": "Michigan",
+    "utilities": [
+      { "name": "DTE Energy", "ratePerKwh": 0.185, "customers": 2200000 },
+      { "name": "Consumers Energy", "ratePerKwh": 0.178, "customers": 1800000 },
+      { "name": "Indiana Michigan Power (AEP)", "ratePerKwh": 0.155, "customers": 140000 }
+    ]
+  },
+  "MN": {
+    "state": "Minnesota",
+    "utilities": [
+      { "name": "Xcel Energy", "ratePerKwh": 0.148, "customers": 1200000 },
+      { "name": "Minnesota Power (Allete)", "ratePerKwh": 0.128, "customers": 150000 },
+      { "name": "Great River Energy Co-ops", "ratePerKwh": 0.135, "customers": 700000 }
+    ]
+  },
+  "MS": {
+    "state": "Mississippi",
+    "utilities": [
+      { "name": "Entergy Mississippi", "ratePerKwh": 0.125, "customers": 460000 },
+      { "name": "Mississippi Power (Southern Co)", "ratePerKwh": 0.132, "customers": 190000 },
+      { "name": "TVA / Local Distributors", "ratePerKwh": 0.118, "customers": 250000 }
+    ]
+  },
+  "MO": {
+    "state": "Missouri",
+    "utilities": [
+      { "name": "Ameren Missouri", "ratePerKwh": 0.128, "customers": 1200000 },
+      { "name": "Evergy Missouri (KCP&L)", "ratePerKwh": 0.135, "customers": 560000 },
+      { "name": "Empire District", "ratePerKwh": 0.118, "customers": 170000 }
+    ]
+  },
+  "MT": {
+    "state": "Montana",
+    "utilities": [
+      { "name": "NorthWestern Energy", "ratePerKwh": 0.125, "customers": 380000 },
+      { "name": "Flathead Electric Co-op", "ratePerKwh": 0.088, "customers": 60000 }
+    ]
+  },
+  "NE": {
+    "state": "Nebraska",
+    "utilities": [
+      { "name": "Omaha Public Power (OPPD)", "ratePerKwh": 0.115, "customers": 400000 },
+      { "name": "Nebraska Public Power (NPPD)", "ratePerKwh": 0.108, "customers": 250000 },
+      { "name": "Lincoln Electric System", "ratePerKwh": 0.105, "customers": 145000 }
+    ]
+  },
+  "NV": {
+    "state": "Nevada",
+    "utilities": [
+      { "name": "NV Energy", "ratePerKwh": 0.145, "customers": 1000000 },
+      { "name": "Valley Electric Association", "ratePerKwh": 0.115, "customers": 22000 }
+    ]
+  },
+  "NH": {
+    "state": "New Hampshire",
+    "utilities": [
+      { "name": "Eversource (PSNH)", "ratePerKwh": 0.265, "customers": 530000 },
+      { "name": "Unitil / Liberty", "ratePerKwh": 0.248, "customers": 90000 }
+    ]
+  },
+  "NJ": {
+    "state": "New Jersey",
+    "utilities": [
+      { "name": "PSE&G", "ratePerKwh": 0.185, "customers": 2300000 },
+      { "name": "Jersey Central Power & Light (JCP&L)", "ratePerKwh": 0.178, "customers": 1100000 },
+      { "name": "Atlantic City Electric", "ratePerKwh": 0.172, "customers": 560000 }
+    ]
+  },
+  "NM": {
+    "state": "New Mexico",
+    "utilities": [
+      { "name": "PNM Resources", "ratePerKwh": 0.145, "customers": 550000 },
+      { "name": "El Paso Electric", "ratePerKwh": 0.128, "customers": 110000 },
+      { "name": "Xcel Energy (SPS)", "ratePerKwh": 0.118, "customers": 100000 }
+    ]
+  },
+  "NY": {
+    "state": "New York",
+    "utilities": [
+      { "name": "Con Edison", "ratePerKwh": 0.330, "customers": 3500000 },
+      { "name": "National Grid (Niagara Mohawk)", "ratePerKwh": 0.215, "customers": 1700000 },
+      { "name": "NYSEG", "ratePerKwh": 0.198, "customers": 880000 },
+      { "name": "Central Hudson", "ratePerKwh": 0.205, "customers": 310000 },
+      { "name": "PSEG Long Island (LIPA)", "ratePerKwh": 0.245, "customers": 1100000 }
+    ]
+  },
+  "NC": {
+    "state": "North Carolina",
+    "utilities": [
+      { "name": "Duke Energy Carolinas", "ratePerKwh": 0.128, "customers": 2100000 },
+      { "name": "Duke Energy Progress", "ratePerKwh": 0.132, "customers": 1400000 },
+      { "name": "NC Electric Co-ops", "ratePerKwh": 0.125, "customers": 950000 }
+    ]
+  },
+  "ND": {
+    "state": "North Dakota",
+    "utilities": [
+      { "name": "Xcel Energy (NSP)", "ratePerKwh": 0.118, "customers": 90000 },
+      { "name": "Montana-Dakota Utilities", "ratePerKwh": 0.115, "customers": 55000 },
+      { "name": "Cass County Electric Co-op", "ratePerKwh": 0.108, "customers": 45000 }
+    ]
+  },
+  "OH": {
+    "state": "Ohio",
+    "utilities": [
+      { "name": "Ohio Edison / FirstEnergy", "ratePerKwh": 0.155, "customers": 1100000 },
+      { "name": "AEP Ohio", "ratePerKwh": 0.148, "customers": 1500000 },
+      { "name": "Duke Energy Ohio", "ratePerKwh": 0.142, "customers": 720000 },
+      { "name": "Dayton Power & Light (AES Ohio)", "ratePerKwh": 0.138, "customers": 530000 }
+    ]
+  },
+  "OK": {
+    "state": "Oklahoma",
+    "utilities": [
+      { "name": "Oklahoma Gas & Electric (OG&E)", "ratePerKwh": 0.118, "customers": 880000 },
+      { "name": "Public Service Co of Oklahoma (PSO/AEP)", "ratePerKwh": 0.125, "customers": 560000 },
+      { "name": "Oklahoma Electric Co-ops", "ratePerKwh": 0.112, "customers": 400000 }
+    ]
+  },
+  "OR": {
+    "state": "Oregon",
+    "utilities": [
+      { "name": "Portland General Electric (PGE)", "ratePerKwh": 0.138, "customers": 900000 },
+      { "name": "Pacific Power (PacifiCorp)", "ratePerKwh": 0.125, "customers": 600000 },
+      { "name": "Eugene Water & Electric Board", "ratePerKwh": 0.095, "customers": 100000 }
+    ]
+  },
+  "PA": {
+    "state": "Pennsylvania",
+    "utilities": [
+      { "name": "PECO Energy", "ratePerKwh": 0.178, "customers": 1700000 },
+      { "name": "PPL Electric", "ratePerKwh": 0.155, "customers": 1400000 },
+      { "name": "Duquesne Light", "ratePerKwh": 0.165, "customers": 600000 },
+      { "name": "FirstEnergy (Met-Ed/Penelec/Penn Power)", "ratePerKwh": 0.158, "customers": 1300000 }
+    ]
+  },
+  "RI": {
+    "state": "Rhode Island",
+    "utilities": [
+      { "name": "Rhode Island Energy (PPL)", "ratePerKwh": 0.285, "customers": 500000 }
+    ]
+  },
+  "SC": {
+    "state": "South Carolina",
+    "utilities": [
+      { "name": "Duke Energy Carolinas", "ratePerKwh": 0.132, "customers": 700000 },
+      { "name": "Dominion Energy SC", "ratePerKwh": 0.138, "customers": 750000 },
+      { "name": "SC Electric Co-ops", "ratePerKwh": 0.128, "customers": 800000 }
+    ]
+  },
+  "SD": {
+    "state": "South Dakota",
+    "utilities": [
+      { "name": "Xcel Energy (NSP)", "ratePerKwh": 0.125, "customers": 90000 },
+      { "name": "Black Hills Energy", "ratePerKwh": 0.118, "customers": 70000 },
+      { "name": "East River Electric Co-ops", "ratePerKwh": 0.112, "customers": 130000 }
+    ]
+  },
+  "TN": {
+    "state": "Tennessee",
+    "utilities": [
+      { "name": "Nashville Electric Service", "ratePerKwh": 0.118, "customers": 400000 },
+      { "name": "Memphis Light Gas & Water", "ratePerKwh": 0.112, "customers": 450000 },
+      { "name": "Knoxville Utilities Board", "ratePerKwh": 0.115, "customers": 210000 },
+      { "name": "TVA / Other Distributors", "ratePerKwh": 0.118, "customers": 1500000 }
+    ]
+  },
+  "TX": {
+    "state": "Texas",
+    "utilities": [
+      { "name": "Oncor (delivery) — avg retail", "ratePerKwh": 0.145, "customers": 3800000 },
+      { "name": "CenterPoint (delivery) — avg retail", "ratePerKwh": 0.148, "customers": 2700000 },
+      { "name": "AEP Texas (delivery) — avg retail", "ratePerKwh": 0.138, "customers": 1100000 },
+      { "name": "CPS Energy (San Antonio)", "ratePerKwh": 0.118, "customers": 880000 },
+      { "name": "Austin Energy", "ratePerKwh": 0.112, "customers": 530000 }
+    ]
+  },
+  "UT": {
+    "state": "Utah",
+    "utilities": [
+      { "name": "Rocky Mountain Power", "ratePerKwh": 0.112, "customers": 1000000 },
+      { "name": "Murray City Power", "ratePerKwh": 0.098, "customers": 25000 }
+    ]
+  },
+  "VT": {
+    "state": "Vermont",
+    "utilities": [
+      { "name": "Green Mountain Power", "ratePerKwh": 0.215, "customers": 270000 },
+      { "name": "Vermont Electric Co-op", "ratePerKwh": 0.198, "customers": 35000 }
+    ]
+  },
+  "VA": {
+    "state": "Virginia",
+    "utilities": [
+      { "name": "Dominion Energy Virginia", "ratePerKwh": 0.142, "customers": 2700000 },
+      { "name": "Appalachian Power (AEP)", "ratePerKwh": 0.128, "customers": 530000 },
+      { "name": "Virginia Electric Co-ops (Old Dominion)", "ratePerKwh": 0.135, "customers": 500000 }
+    ]
+  },
+  "WA": {
+    "state": "Washington",
+    "utilities": [
+      { "name": "Puget Sound Energy", "ratePerKwh": 0.118, "customers": 1200000 },
+      { "name": "Seattle City Light", "ratePerKwh": 0.098, "customers": 460000 },
+      { "name": "Tacoma Power", "ratePerKwh": 0.095, "customers": 190000 },
+      { "name": "Snohomish County PUD", "ratePerKwh": 0.088, "customers": 350000 }
+    ]
+  },
+  "WV": {
+    "state": "West Virginia",
+    "utilities": [
+      { "name": "Appalachian Power (AEP)", "ratePerKwh": 0.128, "customers": 500000 },
+      { "name": "Mon Power / Potomac Edison (FirstEnergy)", "ratePerKwh": 0.135, "customers": 400000 }
+    ]
+  },
+  "WI": {
+    "state": "Wisconsin",
+    "utilities": [
+      { "name": "We Energies (WEC)", "ratePerKwh": 0.155, "customers": 1100000 },
+      { "name": "Alliant Energy (WPL)", "ratePerKwh": 0.148, "customers": 490000 },
+      { "name": "Madison Gas & Electric", "ratePerKwh": 0.152, "customers": 160000 },
+      { "name": "Xcel Energy (NSP)", "ratePerKwh": 0.138, "customers": 260000 }
+    ]
+  },
+  "WY": {
+    "state": "Wyoming",
+    "utilities": [
+      { "name": "Rocky Mountain Power", "ratePerKwh": 0.108, "customers": 150000 },
+      { "name": "Black Hills Energy", "ratePerKwh": 0.118, "customers": 45000 },
+      { "name": "Lower Valley Energy", "ratePerKwh": 0.098, "customers": 22000 }
+    ]
+  },
+  "DC": {
+    "state": "District of Columbia",
+    "utilities": [
+      { "name": "Pepco", "ratePerKwh": 0.158, "customers": 310000 }
+    ]
+  }
+}

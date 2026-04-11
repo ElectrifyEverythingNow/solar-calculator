@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electrify Everything Now | Free Electrification Calculators for Homeowners</title>
+<meta name="description" content="Free electrification calculators for homeowners and renters. Solar savings, rebate stacking, and more. See what electrification actually costs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--green:#0D9448;--green-light:#E8F5E9;--green-dark:#064E24;--yellow:#F5C518;--yellow-pale:#FFF8E1;--charcoal:#1A1A1A;--slate:#4A4A4A;--warm-gray:#F7F5F2;--white:#FFFFFF;--serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--charcoal);background:var(--warm-gray);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:2rem;position:relative;background:var(--charcoal);color:var(--white);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 80%,rgba(13,148,72,.15) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 80% 20%,rgba(245,197,24,.08) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-content{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(13,148,72,.15);border:1px solid rgba(13,148,72,.3);color:var(--green);font-family:var(--mono);font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.4rem 1rem;border-radius:100px;margin-bottom:2rem;animation:fadeIn .8s ease both}
+.hero-badge .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:400;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.5rem;animation:fadeIn .8s ease .1s both}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero-sub{font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.6;color:rgba(255,255,255,.65);max-width:620px;margin-bottom:2.5rem;animation:fadeIn .8s ease .2s both}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeIn .8s ease .35s both}
+.hero-cta{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--sans);font-weight:600;font-size:1rem;padding:.9rem 2rem;border-radius:8px;text-decoration:none;transition:all .25s ease}
+.hero-cta.primary{background:var(--green);color:var(--white)}
+.hero-cta.primary:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 8px 30px rgba(13,148,72,.3)}
+.hero-cta.secondary{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.2)}
+.hero-cta.secondary:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.05)}
+.hero-cta svg{transition:transform .2s ease}
+.hero-cta:hover svg{transform:translateX(3px)}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);animation:fadeIn 1s ease .8s both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero-icons{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.hero-float{position:absolute;opacity:.6;animation:heroFloat 6s ease-in-out infinite}
+@keyframes heroFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-25px) rotate(12deg)}}
+@media(max-width:768px){.hero-float{opacity:.4;font-size:3.5rem!important}}
+
+/* SECTIONS */
+section{padding:6rem 2rem}
+.section-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:1rem}
+.section-heading{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:400;line-height:1.15;margin-bottom:1rem}
+.section-sub{font-size:1.1rem;color:var(--slate);line-height:1.6;max-width:600px}
+
+/* TOOLS */
+.tools-section{background:var(--white);border-top:1px solid rgba(0,0,0,.06)}
+.tools-section .inner{max-width:1100px;margin:0 auto}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;margin-top:3rem}
+.tool-card{border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:2rem;position:relative;overflow:hidden;transition:all .3s ease;background:var(--white)}
+.tool-card:hover{border-color:rgba(13,148,72,.25);box-shadow:0 8px 40px rgba(0,0,0,.06);transform:translateY(-2px)}
+.tool-card.featured{border-color:var(--green);background:linear-gradient(135deg,rgba(13,148,72,.03) 0%,var(--white) 60%)}
+.tool-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.25rem}
+.tool-icon.green{background:var(--green-light)}
+.tool-icon.yellow{background:var(--yellow-pale)}
+.tool-icon.blue{background:#E3F2FD}
+.tool-icon.orange{background:#FFF3E0}
+.tool-card h3{font-family:var(--sans);font-size:1.1rem;font-weight:600;margin-bottom:.6rem}
+.tool-card p{font-size:.9rem;color:var(--slate);line-height:1.55;margin-bottom:1.25rem}
+.tool-audience{display:inline-flex;gap:.4rem}
+.tool-audience span{font-family:var(--mono);font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;padding:.2rem .6rem;border-radius:4px;background:var(--warm-gray);color:var(--slate)}
+.tool-status{position:absolute;top:1.25rem;right:1.25rem;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .7rem;border-radius:100px}
+.tool-status.live{background:var(--green-light);color:var(--green-dark)}
+.tool-status.soon{background:var(--yellow-pale);color:#8D6E00}
+
+/* FILTER BAR */
+.tools-filter{display:flex;gap:.5rem;margin-top:2rem;flex-wrap:wrap}
+.tools-filter button{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:.5rem 1.2rem;border-radius:100px;border:1px solid rgba(0,0,0,.12);background:var(--white);color:var(--slate);cursor:pointer;transition:all .2s ease}
+.tools-filter button:hover{border-color:rgba(13,148,72,.3);color:var(--green)}
+.tools-filter button.active{background:var(--green);color:var(--white);border-color:var(--green)}
+
+/* VOTE BUTTON */
+.tool-vote{display:inline-flex;align-items:center;gap:.35rem;margin-left:auto;padding:.3rem .7rem;border:1px solid rgba(0,0,0,.1);border-radius:100px;background:var(--warm-gray);cursor:pointer;transition:all .2s ease;font-family:var(--mono);font-size:.7rem;color:var(--slate);line-height:1}
+.tool-vote:hover{border-color:rgba(13,148,72,.4);background:var(--green-light);color:var(--green-dark)}
+.tool-vote.voted{border-color:var(--green);background:var(--green-light);color:var(--green-dark)}
+.tool-vote svg{width:14px;height:14px;transition:transform .2s ease}
+.tool-vote:hover svg{transform:translateY(-1px)}
+.tool-vote.voted svg{transform:translateY(-1px)}
+.tool-card-footer{display:flex;align-items:center;gap:.5rem;margin-top:auto}
+.tool-card{display:flex;flex-direction:column}
+
+/* EMBED SECTION */
+.preview-section{background:var(--charcoal);color:var(--white)}
+.preview-section .inner{max-width:900px;margin:0 auto}
+.preview-section .section-sub{color:rgba(255,255,255,.6)}
+
+/* DIRECTORY */
+.directory-section{background:var(--charcoal);color:var(--white)}
+.directory-section .inner{max-width:700px;margin:0 auto;text-align:center}
+.directory-section .section-sub{color:rgba(255,255,255,.6);margin:0 auto}
+.directory-search{display:flex;gap:.5rem;margin-top:2rem;max-width:420px;margin-left:auto;margin-right:auto}
+.directory-search input{flex:1;padding:.85rem 1.2rem;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:rgba(255,255,255,.05);color:var(--white);font-family:var(--sans);font-size:.95rem;outline:none}
+.directory-search input::placeholder{color:rgba(255,255,255,.3)}
+.directory-search button{padding:.85rem 1.5rem;background:var(--green);color:var(--white);border:none;border-radius:8px;font-family:var(--sans);font-weight:600;cursor:pointer;transition:all .2s}
+.directory-search button:hover{background:var(--green-dark)}
+.directory-note{font-size:.8rem;color:rgba(255,255,255,.4);margin-top:.75rem}
+
+/* ABOUT */
+.about-section{background:var(--white);border-top:1px solid rgba(0,0,0,.06)}
+.about-section .inner{max-width:700px;margin:0 auto}
+.about-section p{font-size:1.1rem;color:var(--slate);line-height:1.7;margin-bottom:1rem}
+
+/* NOTIFY */
+.notify-section{background:var(--warm-gray);text-align:center}
+.notify-section .inner{max-width:500px;margin:0 auto}
+.notify-form{display:flex;gap:.5rem;margin-top:2rem}
+.notify-form input{flex:1;padding:.85rem 1.2rem;border:1px solid rgba(0,0,0,.12);border-radius:8px;font-family:var(--sans);font-size:.95rem;background:var(--white);outline:none;transition:border-color .2s}
+.notify-form input:focus{border-color:var(--green)}
+.notify-form button{padding:.85rem 1.5rem;background:var(--green);color:var(--white);border:none;border-radius:8px;font-family:var(--sans);font-weight:600;font-size:.95rem;cursor:pointer;white-space:nowrap;transition:all .2s}
+.notify-form button:hover{background:var(--green-dark)}
+.notify-note{font-size:.8rem;color:var(--slate);margin-top:.75rem}
+
+/* FOOTER */
+footer{padding:3rem 2rem;text-align:center;border-top:1px solid rgba(0,0,0,.06);background:var(--white)}
+footer p{font-size:.85rem;color:var(--slate);line-height:1.6}
+footer a{color:var(--green);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+@media(max-width:768px){
+  .tools-grid{grid-template-columns:1fr}
+  .notify-form,.directory-search{flex-direction:column}
+  .preview-section [style*="grid-template-columns"]{grid-template-columns:1fr!important}
+  section{padding:4rem 1.25rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <!-- Floating electrification icons -->
+  <div class="hero-icons" aria-hidden="true">
+    <span class="hero-float" style="top:8%;left:5%;font-size:7rem;animation-delay:0s">☀️</span>
+    <span class="hero-float" style="top:15%;right:8%;font-size:6rem;animation-delay:.5s">🔌</span>
+    <span class="hero-float" style="top:60%;left:3%;font-size:5.5rem;animation-delay:1s">🚗</span>
+    <span class="hero-float" style="top:75%;right:5%;font-size:6rem;animation-delay:1.5s">🏠</span>
+    <span class="hero-float" style="top:25%;left:12%;font-size:5.5rem;animation-delay:2s">⚡</span>
+    <span class="hero-float" style="top:45%;right:3%;font-size:6rem;animation-delay:.8s">🔋</span>
+    <span class="hero-float" style="top:85%;left:10%;font-size:5rem;animation-delay:1.2s">🍳</span>
+    <span class="hero-float" style="top:5%;right:15%;font-size:5.5rem;animation-delay:1.8s">🌡️</span>
+    <span class="hero-float" style="top:40%;left:7%;font-size:5rem;animation-delay:2.2s">💡</span>
+    <span class="hero-float" style="top:70%;right:12%;font-size:5.5rem;animation-delay:.3s">🚿</span>
+    <span class="hero-float" style="top:50%;right:10%;font-size:7rem;animation-delay:1.6s">🔆</span>
+    <span class="hero-float" style="top:30%;right:18%;font-size:5rem;animation-delay:2.5s">🏭</span>
+    <span class="hero-float" style="top:90%;right:18%;font-size:5.5rem;animation-delay:.6s">🛻</span>
+    <span class="hero-float" style="top:18%;left:18%;font-size:5rem;animation-delay:1.4s">🌎</span>
+  </div>
+  <div class="hero-content">
+<div class="hero-badge"><span class="dot"></span> Tools for the energy transition</div>
+    <h1>Electrify <em>everything.</em><br>Know exactly what it costs.</h1>
+    <p class="hero-sub">Free calculators that show you the real costs and savings of going electric. Solar panels, heat pumps, rebates, and more. No sales pitch. Just math.</p>
+    <div class="hero-ctas">
+      <a href="#tools" class="hero-cta primary">See the tools <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="/solar" class="hero-cta secondary">Try the Solar Calculator</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll to explore ↓</div>
+</section>
+
+
+<!-- ═══ TOOLS ═══ -->
+<section class="tools-section" id="tools">
+  <div class="inner">
+    <p class="section-label">The Toolkit</p>
+    <h2 class="section-heading">Real tools for real electrification decisions</h2>
+    <p class="section-sub">Built for homeowners and renters. Real utility rates. Real incentive programs. Real savings.</p>
+    <p style="font-size:.9rem;color:var(--slate);line-height:1.6;max-width:600px;margin-top:1rem">The biggest barrier to electrification isn't the technology. It's the information gap. We're building free calculators that close it, starting with solar. Real data, real math, no sales pitch.</p>
+    <div class="tools-filter">
+      <button class="active" onclick="filterTools('all')">All Tools</button>
+      <button onclick="filterTools('homeowner')">Homeowners</button>
+      <button onclick="filterTools('contractor')">Contractors</button>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card featured" data-tool="solar-calc" data-audience="homeowner">
+        <span class="tool-status live"><a href="/solar" style="color:inherit;text-decoration:none">Live →</a></span>
+        <div class="tool-icon yellow">🔆</div>
+        <h3><a href="/solar" style="color:inherit;text-decoration:none">Plug-In Solar / Balcony Solar Calculator</a></h3>
+        <p>No roof access? No problem. Estimate the energy savings and payback period for plug-in solar panels on your balcony, patio, or window. Factors in your local electricity rate, sun hours, and panel orientation.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Renters</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'solar-calc')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="solar-calc">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="rebate-stacker" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon green">💰</div>
+        <h3>Rebate &amp; Incentive Stacker</h3>
+        <p>Stack every available incentive program: utility rebates, state tax credits, federal programs, and local incentives. See your actual net cost for a heat pump or heat pump water heater after everything is applied.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Contractors</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'rebate-stacker')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="rebate-stacker">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="electrification-sequencer" data-audience="homeowner">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon yellow">⚡</div>
+        <h3>Electrification Sequencer</h3>
+        <p>Input your gas appliances and their ages. Get a prioritized timeline for switching each one to electric, based on remaining lifespan, available incentives, and ROI.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'electrification-sequencer')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="electrification-sequencer">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="appliance-death-clock" data-audience="homeowner">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon orange">⏳</div>
+        <h3>Appliance Death Clock</h3>
+        <p>Your furnace is 14 years old. Average lifespan? 15–20 years. See when each appliance is likely to fail, so you plan the upgrade instead of panicking through an emergency replacement.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'appliance-death-clock')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="appliance-death-clock">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="heat-pump-vs-gas" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon blue">📊</div>
+        <h3>Heat Pump vs. Gas Operating Cost</h3>
+        <p>Compare monthly and 10-year operating costs using your actual utility rates. See the breakeven point and how rate changes affect the math over time.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Contractors</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'heat-pump-vs-gas')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="heat-pump-vs-gas">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card featured" data-tool="rate-plan-optimizer" data-audience="homeowner">
+        <span class="tool-status live"><a href="/rates" style="color:inherit;text-decoration:none">Live →</a></span>
+        <div class="tool-icon green">⚙️</div>
+        <h3><a href="/rates" style="color:inherit;text-decoration:none">Rate Plan Optimizer</a></h3>
+        <p>Should you switch to a time-of-use rate after electrifying? Input your usage patterns and see which plan saves more, especially with a heat pump and EV.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'rate-plan-optimizer')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="rate-plan-optimizer">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="solar-heat-pump" data-audience="homeowner">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon yellow">☀️</div>
+        <h3>Solar + Heat Pump Calculator</h3>
+        <p>See how much of your heat pump's electricity your solar panels would offset. Uses local solar production data and your estimated heat pump consumption.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'solar-heat-pump')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="solar-heat-pump">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="panel-checker" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon blue">🔌</div>
+        <h3>Electrical Panel Checker</h3>
+        <p>Can your panel handle a heat pump, HPWH, and EV charger? Input your panel size and existing loads for a quick estimate using the same method your electrician uses.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Electricians</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'panel-checker')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="panel-checker">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="proposal-reviewer" data-audience="homeowner">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon orange">📋</div>
+        <h3>Proposal Reviewer</h3>
+        <p>Got a quote for a heat pump or solar install? Upload it and see how the pricing, equipment selection, and rebate claims compare to real-world data.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'proposal-reviewer')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="proposal-reviewer">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="hpwh-savings" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon green">🚿</div>
+        <h3>HPWH Savings Calculator</h3>
+        <p>Compare the operating cost of a heat pump water heater vs. your current gas or electric tank. Factor in your local rates, household size, and usage patterns.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Plumbers</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'hpwh-savings')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="hpwh-savings">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="ev-charger-selector" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon blue">🚗</div>
+        <h3>EV Charger Selector</h3>
+        <p>Find the right home EV charger for your vehicle, electrical panel, and budget. Compare Level 1 vs. Level 2, see install cost estimates, and check which chargers qualify for rebates in your area.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Electricians</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'ev-charger-selector')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="ev-charger-selector">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="electric-power-tool-selector" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon orange">🔧</div>
+        <h3>Electric Power Tool Selector</h3>
+        <p>Ditch the gas-powered yard tools. Compare electric mowers, leaf blowers, chainsaws, and trimmers by battery life, power, and cost. See which models match your yard size and workload.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Contractors</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'electric-power-tool-selector')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="electric-power-tool-selector">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="heat-pump-oem-selector" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon green">🌡️</div>
+        <h3>Heat Pump OEM Selector</h3>
+        <p>Compare heat pump brands and models side by side. Filter by climate zone, home size, SEER2/HSPF2 ratings, noise level, and price. See which manufacturers have the best warranty and installer networks near you.</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>HVAC Contractors</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'heat-pump-oem-selector')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="heat-pump-oem-selector">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="heat-pump-assessment" data-audience="homeowner contractor">
+        <span class="tool-status soon">Coming Soon</span>
+        <div class="tool-icon orange">📄</div>
+        <h3>Heat Pump Assessment</h3>
+        <p>Upload a photo or PDF of a heat pump proposal, spec sheet, or install quote. We'll give you an honest assessment: is it the right unit for your home, is the price fair, and are there red flags?</p>
+        <div class="tool-card-footer">
+          <div class="tool-audience"><span>Homeowners</span><span>Contractors</span></div>
+          <button class="tool-vote" onclick="voteTool(this,'heat-pump-assessment')" title="I want this tool!"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v12"/><path d="M15 5.88L14 10h5.83a2 2 0 011.92 2.56l-2.33 8A2 2 0 0117.5 22H4a2 2 0 01-2-2v-8a2 2 0 012-2h2.76a2 2 0 001.79-1.11L12 2a3.13 3.13 0 013 3.88z"/></svg><span class="vote-count" data-tool="heat-pump-assessment">0</span></button>
+        </div>
+      </div>
+      <div class="tool-card" data-tool="request" data-audience="homeowner contractor" style="border:1px dashed rgba(13,148,72,.3);background:rgba(13,148,72,.02)">
+        <div class="tool-icon green">💡</div>
+        <h3>Request a Tool</h3>
+        <p>Have an idea for an electrification calculator we should build? Tell us what you need.</p>
+        <form onsubmit="event.preventDefault();var d=this.querySelector('textarea').value;if(d.trim()){window.location.href='mailto:jlake1@gmail.com?subject=Tool Request | ElectrifyEverythingNow&body='+encodeURIComponent(d);this.querySelector('button').textContent='Opening email...';this.querySelector('button').style.background='var(--green-dark)'}">
+          <textarea placeholder="Describe the tool you'd like to see..." style="width:100%;min-height:80px;padding:.75rem;border:1px solid rgba(0,0,0,.12);border-radius:8px;font-family:var(--sans);font-size:.85rem;resize:vertical;margin-bottom:.75rem" required></textarea>
+          <button type="submit" style="width:100%;padding:.7rem;background:var(--green);color:var(--white);border:none;border-radius:8px;font-family:var(--sans);font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EMBED ON YOUR SITE ═══ -->
+<section class="preview-section" id="contractors" style="position:relative">
+  <div style="position:absolute;top:2rem;right:2rem;background:#E53935;color:white;font-family:var(--mono);font-size:1.1rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.5rem;border-radius:8px;z-index:2;transform:rotate(3deg);box-shadow:0 4px 20px rgba(229,57,53,.4)">Coming Soon!</div>
+  <div class="inner" style="opacity:.7">
+    <p class="section-label">Share It</p>
+    <h2 class="section-heading" style="color:var(--white)">Put the solar calculator on your website</h2>
+    <p class="section-sub">Run a solar blog, community group, or sustainability site? Drop the calculator on your page in two lines of code.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2.5rem;align-items:start">
+
+      <!-- Fake embed code -->
+      <div>
+        <div style="font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.75rem">Drop this on your site</div>
+        <div style="background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1.25rem;font-family:var(--mono);font-size:.8rem;line-height:1.7;color:rgba(255,255,255,.7);overflow-x:auto">
+          <span style="color:rgba(255,255,255,.35)">&lt;!-- Solar Savings Calculator --&gt;</span><br>
+          <span style="color:#F5C518">&lt;div</span> <span style="color:#4FC1FF">id</span>=<span style="color:#CE9178">"een-solar-calc"</span><span style="color:#F5C518">&gt;&lt;/div&gt;</span><br>
+          <span style="color:#F5C518">&lt;script</span> <span style="color:#4FC1FF">src</span>=<span style="color:#CE9178">"https://electrifyeverythingnow.com/solar.js"</span><span style="color:#F5C518">&gt;&lt;/script&gt;</span>
+        </div>
+        <p style="font-size:.85rem;color:rgba(255,255,255,.45);margin-top:.75rem;line-height:1.5">That's it. Two lines. The calculator shows up on your page with live data: electricity rates, sun hours, and real payback math.</p>
+      </div>
+
+      <!-- Fake mockup -->
+      <div>
+        <div style="font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.75rem">What visitors see</div>
+        <div style="background:var(--white);border-radius:10px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3)">
+          <div style="background:#f5f5f5;padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid rgba(0,0,0,.08)">
+            <div style="width:8px;height:8px;border-radius:50%;background:#FF5F57"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#FFBD2E"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#28CA41"></div>
+            <span style="font-size:.65rem;color:#999;margin-left:.5rem;font-family:var(--mono)">yourblog.com/solar-savings</span>
+          </div>
+          <div style="padding:1.25rem">
+            <div style="font-weight:600;font-size:.85rem;color:var(--charcoal);margin-bottom:.75rem">☀️ Balcony Solar Savings Calculator</div>
+            <div style="font-size:.75rem;color:var(--slate);margin-bottom:.75rem">See how much you'd save with plug-in solar panels</div>
+            <div style="height:36px;border:1px solid #ddd;border-radius:6px;background:#fafafa;margin-bottom:.4rem;display:flex;align-items:center;padding:0 .75rem;font-size:.75rem;color:#999">Your zip code</div>
+            <div style="height:36px;border:1px solid #ddd;border-radius:6px;background:#fafafa;margin-bottom:.75rem;display:flex;align-items:center;padding:0 .75rem;font-size:.75rem;color:#999">Panel wattage</div>
+            <div style="height:40px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:.85rem">Calculate My Savings</div>
+            <div style="text-align:center;margin-top:.6rem;font-size:.6rem;color:#999;font-family:var(--mono)">Powered by ElectrifyEverythingNow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two tiers -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem">
+      <div style="border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:2rem">
+        <div style="font-family:var(--serif);font-size:2rem;color:var(--white);margin-bottom:.25rem">Free</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:1rem">ElectrifyEverythingNow branding</div>
+        <ul style="list-style:none;font-size:.88rem;color:rgba(255,255,255,.65)">
+          <li style="padding:.3rem 0;padding-left:1.4rem;position:relative"><span style="position:absolute;left:0;color:var(--green)">&#10003;</span> Embed the calculator on any site</li>
+          <li style="padding:.3rem 0;padding-left:1.4rem;position:relative"><span style="position:absolute;left:0;color:var(--green)">&#10003;</span> Always up-to-date data</li>
+          <li style="padding:.3rem 0;padding-left:1.4rem;position:relative"><span style="position:absolute;left:0;color:var(--green)">&#10003;</span> EEN branding &amp; footer</li>
+        </ul>
+      </div>
+      <div style="border:1px solid var(--green);border-radius:12px;padding:2rem;background:rgba(13,148,72,.05);position:relative">
+        <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--green);color:white;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .8rem;border-radius:100px">Custom</div>
+        <div style="font-family:var(--serif);font-size:2rem;color:var(--white);margin-bottom:.25rem">$250 <span style="font-size:.9rem;font-family:var(--sans);color:rgba(255,255,255,.5)">one-time</span></div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:1rem">Your brand, your colors, yours forever</div>
+        <ul style="list-style:none;font-size:.88rem;color:rgba(255,255,255,.65)">
+          <li style="padding:.3rem 0;padding-left:1.4rem;position:relative"><span style="position:absolute;left:0;color:var(--green)">&#10003;</span> Your logo &amp; brand colors</li>
+          <li style="padding:.3rem 0;padding-left:1.4rem;position:relative"><span style="position:absolute;left:0;color:var(--green)">&#10003;</span> Always up-to-date data</li>
+          <li style="padding:.3rem 0;padding-left:1.4rem;position:relative"><span style="position:absolute;left:0;color:var(--green)">&#10003;</span> Small "Powered by EEN" footer only</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<!-- ═══ DIRECTORY ═══ -->
+<section class="directory-section" id="directory">
+  <div class="inner">
+    <p class="section-label">Someday?</p>
+    <h2 class="section-heading" style="color:var(--white)">Find an electrification pro near you</h2>
+    <p class="section-sub">A directory of installers who know the rebate landscape. Not built yet, but it's on the list.</p>
+    <div class="directory-search">
+      <input type="text" placeholder="Enter your zip code..." maxlength="5">
+      <button onclick="this.textContent='Not yet!';this.style.background='var(--green-dark)'">Search</button>
+    </div>
+    <p class="directory-note">Interested in being listed when this launches? Sign up below.</p>
+  </div>
+</section>
+
+
+<!-- ═══ NOTIFY ═══ -->
+<section class="notify-section" id="notify">
+  <div class="inner">
+    <p class="section-label">Stay in the loop</p>
+    <h2 class="section-heading">Get notified when new tools launch</h2>
+    <p class="section-sub" style="margin:0 auto">No spam. Just a quick email when a new calculator goes live or incentive programs change.</p>
+    <form class="notify-form" id="notifyForm" onsubmit="submitEmail(event)">
+      <input type="email" id="notifyEmail" placeholder="you@email.com" required>
+      <button type="submit" id="notifyBtn">Notify Me</button>
+    </form>
+    <script>
+    async function submitEmail(e) {
+      e.preventDefault();
+      var btn = document.getElementById('notifyBtn');
+      var email = document.getElementById('notifyEmail').value;
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+      try {
+        var res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email })
+        });
+        if (res.ok) {
+          btn.textContent = 'You\'re in!';
+          btn.style.background = 'var(--green-dark)';
+          document.getElementById('notifyEmail').value = '';
+        } else {
+          btn.textContent = 'Try again';
+          btn.disabled = false;
+        }
+      } catch (err) {
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+      }
+    }
+    </script>
+    <p class="notify-note">No spam. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<script>
+// --- Audience Filter ---
+function filterTools(audience) {
+  var btns = document.querySelectorAll('.tools-filter button');
+  btns.forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+  var cards = document.querySelectorAll('.tool-card');
+  cards.forEach(function(card) {
+    if (audience === 'all') {
+      card.style.display = '';
+    } else {
+      var a = card.getAttribute('data-audience') || '';
+      card.style.display = a.indexOf(audience) !== -1 ? '' : 'none';
+    }
+  });
+}
+
+// --- Vote System ---
+function getVotedTools() {
+  try { return JSON.parse(localStorage.getItem('een_votes') || '[]'); } catch(e) { return []; }
+}
+
+function saveVotedTools(arr) {
+  localStorage.setItem('een_votes', JSON.stringify(arr));
+}
+
+function markVotedButtons() {
+  var voted = getVotedTools();
+  voted.forEach(function(toolId) {
+    var btn = document.querySelector('.tool-vote[onclick*="' + toolId + '"]');
+    if (btn) btn.classList.add('voted');
+  });
+}
+
+async function voteTool(btn, toolId) {
+  var voted = getVotedTools();
+  if (voted.indexOf(toolId) !== -1) return; // already voted
+  btn.classList.add('voted');
+  voted.push(toolId);
+  saveVotedTools(voted);
+  var countEl = btn.querySelector('.vote-count');
+  var current = parseInt(countEl.textContent) || 0;
+  countEl.textContent = current + 1;
+  try {
+    await fetch('/api/vote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tool: toolId })
+    });
+  } catch(e) { /* vote saved locally even if server fails */ }
+}
+
+async function loadVotes() {
+  try {
+    var res = await fetch('/api/vote');
+    if (res.ok) {
+      var data = await res.json();
+      var counts = data.votes || {};
+      Object.keys(counts).forEach(function(toolId) {
+        var el = document.querySelector('.vote-count[data-tool="' + toolId + '"]');
+        if (el) el.textContent = counts[toolId];
+      });
+    }
+  } catch(e) { /* counts stay at 0 if server unavailable */ }
+  markVotedButtons();
+}
+
+loadVotes();
+</script>
+
+<footer>
+  <p>&copy; 2026 ElectrifyEverythingNow.com</p>
+  <p><a href="#contractors">Embed on Your Site</a> · <a href="#directory">Find a Pro</a></p>
+  <p style="margin-top:.75rem;font-size:.8rem">Built by <a href="https://joshlake.ai" target="_blank">Josh Lake</a></p>
+</footer>
+
+</body>
+</html>

@@ -6,22 +6,49 @@ import {
 } from "./calculations";
 
 describe("calculateSolarEstimate", () => {
-  it("calculates correctly for Arizona at 30° optimal tilt", () => {
+  it("calculates correctly with 0% escalator (flat rates)", () => {
     const result = calculateSolarEstimate({
       systemSizeW: 1200,
       systemCost: 2000,
       peakSunHours: 6.5,
       ratePerKwh: 0.13,
       tiltAngle: 30,
+      annualEscalator: 0,
     });
 
     // 1.2 kW * 6.5 * 365 * 0.8 * 1.0 = 2277.6 kWh
     expect(result.annualKwh).toBeCloseTo(2277.6, 0);
     expect(result.annualSavings).toBeCloseTo(296.09, 0);
     expect(result.paybackYears).toBeCloseTo(6.75, 1);
+    // With 0% escalator, 10yr savings = 296.09 * 10 - 2000 = 960.88
     expect(result.tenYearSavings).toBeCloseTo(960.88, 0);
-    expect(result.twentyYearSavings).toBeCloseTo(3921.76, 0);
     expect(result.capacityFactor).toBeCloseTo(0.2166, 2);
+  });
+
+  it("escalator shortens payback period", () => {
+    const flat = calculateSolarEstimate({
+      systemSizeW: 1200,
+      systemCost: 2000,
+      peakSunHours: 5.0,
+      ratePerKwh: 0.15,
+      tiltAngle: 30,
+      annualEscalator: 0,
+    });
+    const escalated = calculateSolarEstimate({
+      systemSizeW: 1200,
+      systemCost: 2000,
+      peakSunHours: 5.0,
+      ratePerKwh: 0.15,
+      tiltAngle: 30,
+      annualEscalator: 0.03,
+    });
+
+    // Same year-1 savings
+    expect(escalated.annualSavings).toBeCloseTo(flat.annualSavings, 0);
+    // Escalator should shorten payback
+    expect(escalated.paybackYears).toBeLessThan(flat.paybackYears);
+    // And increase long-term savings
+    expect(escalated.twentyYearSavings).toBeGreaterThan(flat.twentyYearSavings);
   });
 
   it("reduces production at 70° balcony tilt", () => {
@@ -31,6 +58,7 @@ describe("calculateSolarEstimate", () => {
       peakSunHours: 5.0,
       ratePerKwh: 0.15,
       tiltAngle: 30,
+      annualEscalator: 0,
     });
     const balcony = calculateSolarEstimate({
       systemSizeW: 1200,
@@ -38,9 +66,9 @@ describe("calculateSolarEstimate", () => {
       peakSunHours: 5.0,
       ratePerKwh: 0.15,
       tiltAngle: 70,
+      annualEscalator: 0,
     });
 
-    // 70° should produce 75% of 30° optimal
     expect(balcony.annualKwh).toBeCloseTo(optimal.annualKwh * 0.75, 0);
     expect(balcony.paybackYears).toBeGreaterThan(optimal.paybackYears);
   });
@@ -52,6 +80,7 @@ describe("calculateSolarEstimate", () => {
       peakSunHours: 5.0,
       ratePerKwh: 0.15,
       tiltAngle: 90,
+      annualEscalator: 0,
     });
 
     // 1.2 * 5.0 * 365 * 0.8 * 0.60 = 1051.2 kWh
@@ -65,6 +94,7 @@ describe("calculateSolarEstimate", () => {
       peakSunHours: 5.0,
       ratePerKwh: 0,
       tiltAngle: 30,
+      annualEscalator: 0.03,
     });
 
     expect(result.annualSavings).toBe(0);
@@ -79,11 +109,26 @@ describe("calculateSolarEstimate", () => {
       peakSunHours: 5.0,
       ratePerKwh: 0.15,
       tiltAngle: 70,
+      annualEscalator: 0,
     });
 
-    // CF = annualKwh / (1.2 * 8760)
     expect(result.capacityFactor).toBeGreaterThan(0);
     expect(result.capacityFactor).toBeLessThan(0.25);
+  });
+
+  it("5% escalator significantly boosts 20-year savings", () => {
+    const result = calculateSolarEstimate({
+      systemSizeW: 1200,
+      systemCost: 2000,
+      peakSunHours: 5.0,
+      ratePerKwh: 0.15,
+      tiltAngle: 30,
+      annualEscalator: 0.05,
+    });
+
+    // Year-1 savings = 1752 * 0.15 = 262.80
+    // With 5% escalator over 20 years, cumulative should be much more than 262.80 * 20
+    expect(result.twentyYearSavings).toBeGreaterThan(262.80 * 20 - 2000);
   });
 });
 

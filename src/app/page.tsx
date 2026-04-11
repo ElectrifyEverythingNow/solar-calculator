@@ -19,11 +19,13 @@ export default function Home() {
   const [customRate, setCustomRate] = useState<number | null>(null);
   const [systemSizeW, setSystemSizeW] = useState(1200);
   const [systemCost, setSystemCost] = useState(2000);
-  const [tiltAngle, setTiltAngle] = useState<TiltAngle>(70);
+  const [tiltAngle, setTiltAngle] = useState<TiltAngle>(30);
+  const [annualEscalator, setAnnualEscalator] = useState(0.03);
   const [pvwattsKwh, setPvwattsKwh] = useState<number | null>(null);
   const [calcCount, setCalcCount] = useState<number | null>(null);
 
   const resultsRef = useRef<HTMLDivElement>(null);
+  const hasScrolledToResults = useRef(false);
 
   // Fetch counter on mount
   useEffect(() => {
@@ -49,14 +51,29 @@ export default function Home() {
   const estimate = useMemo(() => {
     if (!stateInfo || ratePerKwh == null || ratePerKwh <= 0) return null;
     if (pvwattsKwh != null) {
-      const annualSavings = pvwattsKwh * ratePerKwh;
+      const annualSavingsYr1 = pvwattsKwh * ratePerKwh;
       const theoreticalMaxKwh = (systemSizeW / 1000) * 8760;
+      // Apply escalator to multi-year savings
+      let tenYrTotal = 0;
+      let twentyYrTotal = 0;
+      let payback = Infinity;
+      let cumulative = 0;
+      for (let y = 0; y < 20; y++) {
+        const yrSavings = pvwattsKwh * ratePerKwh * Math.pow(1 + annualEscalator, y);
+        cumulative += yrSavings;
+        if (payback === Infinity && cumulative >= systemCost) {
+          const prev = cumulative - yrSavings;
+          payback = y + (systemCost - prev) / yrSavings;
+        }
+        if (y < 10) tenYrTotal = cumulative;
+        if (y < 20) twentyYrTotal = cumulative;
+      }
       return {
         annualKwh: pvwattsKwh,
-        annualSavings,
-        paybackYears: annualSavings === 0 ? Infinity : systemCost / annualSavings,
-        tenYearSavings: annualSavings * 10 - systemCost,
-        twentyYearSavings: annualSavings * 20 - systemCost,
+        annualSavings: annualSavingsYr1,
+        paybackYears: annualSavingsYr1 === 0 ? Infinity : payback,
+        tenYearSavings: tenYrTotal - systemCost,
+        twentyYearSavings: twentyYrTotal - systemCost,
         capacityFactor: theoreticalMaxKwh > 0 ? pvwattsKwh / theoreticalMaxKwh : 0,
       };
     }
@@ -66,11 +83,14 @@ export default function Home() {
       peakSunHours: stateInfo.peakSunHours,
       ratePerKwh,
       tiltAngle,
+      annualEscalator,
     });
-  }, [stateInfo, ratePerKwh, systemSizeW, systemCost, tiltAngle, pvwattsKwh]);
+  }, [stateInfo, ratePerKwh, systemSizeW, systemCost, tiltAngle, annualEscalator, pvwattsKwh]);
 
+  // Only scroll to results once — when they first appear
   useEffect(() => {
-    if (estimate && resultsRef.current) {
+    if (estimate && resultsRef.current && !hasScrolledToResults.current) {
+      hasScrolledToResults.current = true;
       resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [estimate]);
@@ -80,6 +100,7 @@ export default function Home() {
     setSelectedUtility(null);
     setCustomRate(null);
     setPvwattsKwh(null);
+    hasScrolledToResults.current = false;
     incrementCounter();
   };
 
@@ -107,6 +128,11 @@ export default function Home() {
     incrementCounter();
   };
 
+  const handleEscalatorChange = (value: number) => {
+    setAnnualEscalator(value);
+    incrementCounter();
+  };
+
   return (
     <main className="flex flex-1 flex-col items-center bg-white">
       <Header calcCount={calcCount} />
@@ -129,9 +155,11 @@ export default function Home() {
               systemSizeW={systemSizeW}
               systemCost={systemCost}
               tiltAngle={tiltAngle}
+              annualEscalator={annualEscalator}
               onSystemSizeChange={handleSystemSizeChange}
               onSystemCostChange={handleSystemCostChange}
               onTiltAngleChange={handleTiltAngleChange}
+              onEscalatorChange={handleEscalatorChange}
             />
           </div>
         </section>

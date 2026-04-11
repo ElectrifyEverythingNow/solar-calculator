@@ -1,28 +1,39 @@
 import type { TiltAngle } from "@/lib/types";
 
 const TILT_OPTIONS: { value: TiltAngle; label: string; desc: string }[] = [
-  { value: 90, label: "90° Vertical", desc: "Wall / railing mount" },
-  { value: 70, label: "70° Steep", desc: "Angled balcony bracket" },
-  { value: 45, label: "45° Tilted", desc: "Ground mount — compact" },
   { value: 30, label: "30° Optimal", desc: "Ground mount — best output" },
+  { value: 45, label: "45° Tilted", desc: "Ground mount — compact" },
+  { value: 70, label: "70° Steep", desc: "Angled balcony bracket" },
+  { value: 90, label: "90° Vertical", desc: "Wall / railing mount" },
+];
+
+const ESCALATOR_OPTIONS: { value: number; label: string }[] = [
+  { value: 0, label: "0% — flat" },
+  { value: 0.02, label: "2%/yr" },
+  { value: 0.03, label: "3%/yr" },
+  { value: 0.05, label: "5%/yr" },
 ];
 
 interface SystemInputsProps {
   systemSizeW: number;
   systemCost: number;
   tiltAngle: TiltAngle;
+  annualEscalator: number;
   onSystemSizeChange: (value: number) => void;
   onSystemCostChange: (value: number) => void;
   onTiltAngleChange: (value: TiltAngle) => void;
+  onEscalatorChange: (value: number) => void;
 }
 
 export function SystemInputs({
   systemSizeW,
   systemCost,
   tiltAngle,
+  annualEscalator,
   onSystemSizeChange,
   onSystemCostChange,
   onTiltAngleChange,
+  onEscalatorChange,
 }: SystemInputsProps) {
   return (
     <div className="space-y-4">
@@ -45,7 +56,7 @@ export function SystemInputs({
             className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-zinc-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
           />
           <p className="text-xs text-zinc-400 mt-1">
-            DC rating from the panel label. AC output is ~15-20% lower after inverter losses.
+            DC rating from the panel label. Panels only hit their rated wattage when the sun is at the perfect angle — which it almost never is.
           </p>
         </div>
         <div className="flex-1">
@@ -87,6 +98,30 @@ export function SystemInputs({
                 {opt.label}
               </span>
               <span className="block text-xs text-zinc-500">{opt.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-zinc-700 mb-1">
+          Electricity Rate Escalator
+        </label>
+        <p className="text-xs text-zinc-400 mb-2">
+          Electricity prices have risen ~3-5%/yr nationally over the past few years. Higher rates = faster payback over time.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {ESCALATOR_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => onEscalatorChange(opt.value)}
+              className={`rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                annualEscalator === opt.value
+                  ? "border-blue-500 bg-blue-50 ring-1 ring-blue-500 text-zinc-900"
+                  : "border-zinc-200 bg-white hover:border-zinc-300 text-zinc-600"
+              }`}
+            >
+              {opt.label}
             </button>
           ))}
         </div>

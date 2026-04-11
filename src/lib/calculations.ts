@@ -17,6 +17,39 @@ interface CalculationInput {
   peakSunHours: number;
   ratePerKwh: number;
   tiltAngle: TiltAngle;
+  annualEscalator: number; // e.g. 0.03 for 3%
+}
+
+/**
+ * Sum savings over N years with a rate that escalates annually.
+ * Year 1 uses the base rate; year N uses rate * (1 + escalator)^(N-1).
+ */
+function cumulativeSavings(annualKwh: number, baseRate: number, escalator: number, years: number): number {
+  let total = 0;
+  for (let y = 0; y < years; y++) {
+    total += annualKwh * baseRate * Math.pow(1 + escalator, y);
+  }
+  return total;
+}
+
+/**
+ * Find the payback year — the first year where cumulative savings >= system cost.
+ * Returns Infinity if it never pays back within 30 years.
+ */
+function findPaybackYear(annualKwh: number, baseRate: number, escalator: number, systemCost: number): number {
+  if (annualKwh <= 0 || baseRate <= 0) return Infinity;
+  let cumulative = 0;
+  for (let y = 0; y < 30; y++) {
+    cumulative += annualKwh * baseRate * Math.pow(1 + escalator, y);
+    if (cumulative >= systemCost) {
+      // Interpolate within the year for precision
+      const prevCumulative = cumulative - annualKwh * baseRate * Math.pow(1 + escalator, y);
+      const yearSavings = annualKwh * baseRate * Math.pow(1 + escalator, y);
+      const fraction = (systemCost - prevCumulative) / yearSavings;
+      return y + fraction;
+    }
+  }
+  return Infinity;
 }
 
 export function calculateSolarEstimate(input: CalculationInput): SolarEstimate {
@@ -24,11 +57,12 @@ export function calculateSolarEstimate(input: CalculationInput): SolarEstimate {
   const tiltFactor = TILT_FACTORS[input.tiltAngle];
   const annualKwh =
     systemSizeKw * input.peakSunHours * 365 * DERATE_FACTOR * tiltFactor;
-  const annualSavings = annualKwh * input.ratePerKwh;
-  const paybackYears =
-    annualSavings === 0 ? Infinity : input.systemCost / annualSavings;
-  const tenYearSavings = annualSavings * 10 - input.systemCost;
-  const twentyYearSavings = annualSavings * 20 - input.systemCost;
+  const annualSavingsYr1 = annualKwh * input.ratePerKwh;
+  const escalator = input.annualEscalator;
+
+  const paybackYears = findPaybackYear(annualKwh, input.ratePerKwh, escalator, input.systemCost);
+  const tenYearSavings = cumulativeSavings(annualKwh, input.ratePerKwh, escalator, 10) - input.systemCost;
+  const twentyYearSavings = cumulativeSavings(annualKwh, input.ratePerKwh, escalator, 20) - input.systemCost;
 
   // Capacity factor = actual production / theoretical max (system running 24/7/365)
   const theoreticalMaxKwh = systemSizeKw * 8760;
@@ -36,7 +70,7 @@ export function calculateSolarEstimate(input: CalculationInput): SolarEstimate {
 
   return {
     annualKwh,
-    annualSavings,
+    annualSavings: annualSavingsYr1,
     paybackYears,
     tenYearSavings,
     twentyYearSavings,

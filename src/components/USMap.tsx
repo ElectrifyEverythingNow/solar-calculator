@@ -30,10 +30,11 @@ const FIPS_TO_STATE: Record<string, string> = {
   "56": "WY",
 };
 
-// Default assumptions for map coloring: 1200W DC at 70° balcony tilt, $2000 cost
+// Default assumptions for map coloring
 const DEFAULT_SYSTEM_W = 1200;
 const DEFAULT_COST = 2000;
-const DEFAULT_TILT = 70 as const;
+const DEFAULT_TILT = 30 as const;
+const DEFAULT_ESCALATOR = 0.03;
 
 function getDefaultPayback(stateCode: string): number | null {
   const state = (solarData as Record<string, StateData>)[stateCode];
@@ -47,6 +48,7 @@ function getDefaultPayback(stateCode: string): number | null {
     peakSunHours: state.peakSunHours,
     ratePerKwh: topUtility.ratePerKwh,
     tiltAngle: DEFAULT_TILT,
+    annualEscalator: DEFAULT_ESCALATOR,
   });
   return estimate.paybackYears;
 }

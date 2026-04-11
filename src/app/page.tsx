@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Header } from "@/components/Header";
 import { USMap } from "@/components/USMap";
 import { UtilityPicker } from "@/components/UtilityPicker";
@@ -24,8 +24,6 @@ export default function Home() {
   const [pvwattsKwh, setPvwattsKwh] = useState<number | null>(null);
   const [calcCount, setCalcCount] = useState<number | null>(null);
 
-  const resultsRef = useRef<HTMLDivElement>(null);
-  const hasScrolledToResults = useRef(false);
 
   // Fetch counter on mount
   useEffect(() => {
@@ -87,20 +85,13 @@ export default function Home() {
     });
   }, [stateInfo, ratePerKwh, systemSizeW, systemCost, tiltAngle, annualEscalator, pvwattsKwh]);
 
-  // Only scroll to results once — when they first appear
-  useEffect(() => {
-    if (estimate && resultsRef.current && !hasScrolledToResults.current) {
-      hasScrolledToResults.current = true;
-      resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [estimate]);
+  // No auto-scroll — user scrolls to results themselves
 
   const handleSelectState = (code: string) => {
     setSelectedState(code);
     setSelectedUtility(null);
     setCustomRate(null);
     setPvwattsKwh(null);
-    hasScrolledToResults.current = false;
     incrementCounter();
   };
 
@@ -166,7 +157,7 @@ export default function Home() {
       )}
 
       {estimate && selectedState && (
-        <section ref={resultsRef} className="w-full max-w-2xl mx-auto px-4 pb-8">
+        <section className="w-full max-w-2xl mx-auto px-4 pb-8">
           <ResultsCard
             estimate={estimate}
             systemSizeW={systemSizeW}

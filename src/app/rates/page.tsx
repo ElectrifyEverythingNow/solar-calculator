@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { RateInputs, type RateInputValues } from "@/components/rates/RateInputs";
 import { RateResults } from "@/components/rates/RateResults";
 import { fetchRatePlans } from "@/lib/openei";
@@ -22,6 +22,13 @@ export default function RatesPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<ComparisonResult | null>(null);
+  const resultsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (result && resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [result]);
 
   const handleCalculate = async () => {
     setIsLoading(true);
@@ -75,7 +82,7 @@ export default function RatesPage() {
 
       {/* Results */}
       {result && (
-        <section className="w-full max-w-2xl mx-auto px-4 pb-8">
+        <section ref={resultsRef} className="w-full max-w-2xl mx-auto px-4 pb-8">
           <RateResults result={result} hasEv={inputs.hasEv} hasSolar={inputs.hasSolar} hasHeatPump={inputs.hasHeatPump} />
         </section>
       )}

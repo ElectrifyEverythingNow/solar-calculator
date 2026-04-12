@@ -16,7 +16,7 @@ export async function fetchPVWattsEstimate(
 ): Promise<{ annualKwh: number } | { error: string }> {
   const apiKey = process.env.NEXT_PUBLIC_NREL_API_KEY;
   if (!apiKey) {
-    return { error: "NREL API key not configured" };
+    return { error: "Zip code refinement is temporarily unavailable. The estimate above uses state-level averages." };
   }
 
   const url = new URL("https://developer.nrel.gov/api/pvwatts/v8.json");

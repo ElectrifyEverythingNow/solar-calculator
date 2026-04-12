@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>",
   },
   metadataBase: new URL("https://electrifyeverythingnow.com"),
+  verification: {
+    google: "REPLACE_WITH_YOUR_GSC_VERIFICATION_CODE",
+  },
 };
 
 export default function RootLayout({
@@ -31,6 +34,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+      </head>
       <body className="min-h-full flex flex-col">
         <SiteNav />
         {children}

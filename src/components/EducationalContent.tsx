@@ -1,3 +1,6 @@
+import { LegislationComparisonTable } from "./LegislationComparisonTable";
+import { StateLinksGrid } from "./StateLinksGrid";
+
 export function EducationalContent() {
   return (
     <section className="w-full max-w-2xl mx-auto px-4 pb-8">
@@ -137,6 +140,12 @@ export function EducationalContent() {
             .
           </p>
         </div>
+
+        {/* Legislation Comparison Table */}
+        <LegislationComparisonTable />
+
+        {/* Explore by State */}
+        <StateLinksGrid />
 
         {/* Sources & Last Updated */}
         <div className="border-t border-zinc-100 pt-4">

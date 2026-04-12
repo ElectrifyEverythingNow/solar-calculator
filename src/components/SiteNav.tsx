@@ -32,6 +32,14 @@ export function SiteNav() {
           >
             Rate Optimizer
           </Link>
+          <Link
+            href="/solar/how-to-install"
+            className={`hover:text-green-300 ${
+              pathname === "/solar/how-to-install" ? "text-green-400 font-semibold" : "text-zinc-300"
+            }`}
+          >
+            Install Guide
+          </Link>
         </div>
       </div>
     </nav>

@@ -122,6 +122,23 @@ const jsonLd = {
         },
       ],
     },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://electrifyeverythingnow.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Solar Calculator",
+          item: "https://electrifyeverythingnow.com/solar",
+        },
+      ],
+    },
   ],
 };
 

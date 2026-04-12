@@ -25,18 +25,20 @@ MANUAL_EIA_MAP = {
     "Arkansas Electric Cooperatives": ["North Arkansas Elec Coop, Inc"],
     # California
     "Los Angeles DWP (LADWP)": ["Los Angeles Department of Water & Power"],
+    # Multi-state utilities (merged to avoid duplicate dict keys)
+    "Xcel Energy": ["Public Service Co of Colorado", "Northern States Power Co"],
+    "Black Hills Energy": ["Black Hills Colorado Electric, LLC", "Black Hills Power, Inc. d/b/a", "Cheyenne Light Fuel & Power Co"],
+    "Rocky Mountain Power": ["PacifiCorp"],
+    "Xcel Energy (NSP)": ["Northern States Power Co"],
     # Colorado
-    "Xcel Energy": ["Public Service Co of Colorado"],
     "Tri-State / Local Co-ops": ["Tri-State Electric Member Corp"],
-    "Black Hills Energy": ["Black Hills Colorado Electric, LLC"],
     # Connecticut
     "Eversource": ["Connecticut Light & Power Co"],
     # DC / Maryland
     "Pepco": ["Potomac Electric Power Co"],
     # Georgia
     "Georgia EMCs (Co-ops)": [],  # Co-op aggregate — no single EIA entry
-    # Idaho
-    "Rocky Mountain Power": ["PacifiCorp"],
+    # Idaho — Rocky Mountain Power already in multi-state section above
     # Iowa
     "Alliant Energy (Interstate Power)": ["Interstate Power and Light Co"],
     # Kansas
@@ -50,8 +52,7 @@ MANUAL_EIA_MAP = {
     "National Grid": ["Massachusetts Electric Co"],
     # Michigan
     "DTE Energy": ["DTE Electric Company", "Detroit Edison Co"],
-    # Minnesota
-    "Xcel Energy": ["Northern States Power Co"],
+    # Minnesota — Xcel Energy already in multi-state section above
     "Minnesota Power (Allete)": ["ALLETE, Inc."],
     "Great River Energy Co-ops": [],  # Wholesale only
     # Missouri
@@ -76,8 +77,7 @@ MANUAL_EIA_MAP = {
     "PSEG Long Island (LIPA)": ["Long Island Power Authority"],
     # North Carolina
     "NC Electric Co-ops": ["Central Electric Membership Corp. - (NC)"],
-    # North Dakota
-    "Xcel Energy (NSP)": ["Northern States Power Co"],
+    # North Dakota — Xcel Energy (NSP) already in multi-state section above
     # Ohio
     "Ohio Edison / FirstEnergy": ["Ohio Edison Co"],
     "AEP Ohio": ["Ohio Power Co"],
@@ -90,9 +90,7 @@ MANUAL_EIA_MAP = {
     "Rhode Island Energy (PPL)": ["The Narragansett Electric Co"],
     # South Carolina
     "SC Electric Co-ops": ["Mid-Carolina Electric Coop Inc"],
-    # South Dakota
-    "Xcel Energy (NSP)": ["Northern States Power Co"],
-    "Black Hills Energy": ["Black Hills Power, Inc. d/b/a"],
+    # South Dakota — Xcel Energy (NSP) and Black Hills Energy in multi-state section above
     "East River Electric Co-ops": ["Central Electric Coop, Inc - (SD)"],
     # Tennessee
     "Memphis Light Gas & Water": ["City of Memphis - (TN)"],
@@ -102,8 +100,7 @@ MANUAL_EIA_MAP = {
     "CenterPoint (delivery) — avg retail": ["CenterPoint Energy"],
     "AEP Texas (delivery) — avg retail": ["AEP Texas Central Company", "AEP Texas North Company"],
     "CPS Energy (San Antonio)": ["City of San Antonio - (TX)"],
-    # Utah
-    "Rocky Mountain Power": ["PacifiCorp"],
+    # Utah — Rocky Mountain Power already in multi-state section above
     "Murray City Power": ["City of Murray - (UT)"],
     # Virginia
     "Dominion Energy Virginia": ["Virginia Electric & Power Co"],
@@ -114,12 +111,12 @@ MANUAL_EIA_MAP = {
     # Wisconsin
     "We Energies (WEC)": ["Wisconsin Electric Power Co"],
     "Alliant Energy (WPL)": ["Wisconsin Power & Light Co"],
-    "Xcel Energy (NSP)": ["Northern States Power Co"],
+    # Wisconsin — Xcel Energy (NSP) already in multi-state section above
     # West Virginia
     "Mon Power / Potomac Edison (FirstEnergy)": ["Monongahela Power Co", "Potomac Edison Co"],
     # Wyoming
     "Rocky Mountain Power": ["PacifiCorp"],
-    "Black Hills Energy": ["Black Hills Power, Inc. d/b/a", "Cheyenne Light Fuel & Power Co"],
+    # Wyoming — Rocky Mountain Power and Black Hills Energy in multi-state section above
 }
 
 
@@ -152,7 +149,7 @@ def load_eia_territories():
         reader = csv.DictReader(f)
         for row in reader:
             name = row["Utility_Name"].strip()
-            fips = row["County_FIPS"].strip()
+            fips = row["County_FIPS"].strip().zfill(5)
             if name not in eia:
                 eia[name] = []
             eia[name].append(fips)

@@ -38,9 +38,9 @@ export function LegislationSection() {
           >
             33+ states
           </a>{" "}
-          have introduced bills to legalize plug-in solar — and Utah, Maine, and
-          Washington have already enacted laws. Here are the states leading the
-          way.
+          have introduced bills to legalize plug-in solar — and Utah, Maine,
+          and Virginia have already enacted laws. Here are the states leading
+          the way.
         </p>
 
         <div className="space-y-3">

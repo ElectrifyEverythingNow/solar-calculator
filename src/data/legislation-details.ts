@@ -50,36 +50,19 @@ export const LAWS: LawEntry[] = [
     effectiveDate: "2026-04-06",
   },
   {
-    state: "Washington",
-    stateCode: "WA",
-    status: "signed",
-    bill: "HB 2296",
-    billUrl: "https://app.leg.wa.gov/billsummary?BillNumber=2296&Year=2025",
-    summary:
-      "Signed into law as Chapter 136 of the 2026 Laws. Effective June 11, 2026. Third state to enact plug-in solar legislation in 2026.",
-    details:
-      "Passed the House February 11, 2026 and the Senate March 6, 2026. Senate amendments stripped meter-mounted device language. Improves home solar economics broadly while creating a pathway for plug-in devices.",
-    sourceLabel: "Washington State Legislature",
-    sourceUrl:
-      "https://lawfilesext.leg.wa.gov/biennium/2025-26/Pdf/Bill%20Reports/House/2296-S%20HBR%20APH%2026.pdf",
-    maxWatts: 1200,
-    utilityApproval: "Streamlined — no separate interconnection agreement",
-    effectiveDate: "2026-06-11",
-  },
-  {
     state: "Virginia",
     stateCode: "VA",
-    status: "passed",
+    status: "signed",
     bill: "HB 395 / SB 250",
     billUrl:
-      "https://virginiamercury.com/2026/03/10/plug-in-solar-panels-near-approval-by-general-assembly/",
+      "https://legiscan.com/VA/bill/HB395/2026",
     summary:
-      "Passed General Assembly March 2026 with overwhelming bipartisan support. Gov. Spanberger returned with technical amendments — special session approval expected. Effective Jan 1, 2027.",
+      "Third state to legalize plug-in solar. General Assembly accepted Gov. Spanberger's technical amendments on April 22, 2026. Consumer rules effective January 1, 2027.",
     details:
-      "Allows portable solar devices up to 1,200W per dwelling. Utilities cannot charge fees or require approval — only notification. Landlords with 4+ units cannot ban tenant use. Classified as consumer goods under the Virginia Consumer Protection Act. Part of Spanberger's Affordable Virginia Agenda.",
-    sourceLabel: "Utility Dive",
+      "Allows portable solar devices up to 1,200W per dwelling. Utilities cannot charge fees or require approval — only notification. Landlords with 4+ units cannot ban tenant use. Classified as consumer goods under the Virginia Consumer Protection Act. Part of Spanberger's Affordable Virginia Agenda. Stakeholder safety review by Nov 15, 2026 before consumer rollout.",
+    sourceLabel: "CleanTechnica",
     sourceUrl:
-      "https://www.utilitydive.com/news/virginia-legislature-passes-balcony-solar-bill/814582/",
+      "https://cleantechnica.com/2026/04/27/3rd-us-state-allows-plug-play-solar-power/",
     maxWatts: 1200,
     utilityApproval: "Notification only — no fees or prior approval",
     effectiveDate: "2027-01-01",

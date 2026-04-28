@@ -81,16 +81,25 @@ export function EducationalContent() {
             >
               LD 1730
             </a>{" "}
-            in April 2026, and Washington became the third state to enact
-            plug-in solar legislation (HB 2296, signed into law as Chapter 136
-            of the 2026 Laws). Virginia (HB 395 / SB 250), Colorado (HB 26-1007,
-            up to 1,920W), and Maryland (HB 1532) have all passed legislation
-            through both chambers and are awaiting governors&apos; signatures. New
-            York&apos;s Senate unanimously passed the SUNNY Act 62-0. As of April
-            2026, lawmakers in 33+ states and Washington D.C. have introduced
-            bills to legalize plug-in solar devices. Most current legislation
-            caps systems at 1,200 watts (Colorado allows up to 1,920W) and
-            requires UL 3700 safety certification.
+            in April 2026, and Virginia became the third state on April 22,
+            2026, when the General Assembly accepted Gov. Spanberger&apos;s
+            technical amendments to{" "}
+            <a
+              href="https://legiscan.com/VA/bill/HB395/2026"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-600 hover:text-green-700 underline underline-offset-2"
+            >
+              HB 395 / SB 250
+            </a>
+            . Colorado (HB 26-1007, up to 1,920W) and Maryland (HB 1532, the
+            Utility RELIEF Act) have both passed legislation through both
+            chambers and are awaiting governors&apos; signatures. New York&apos;s
+            Senate unanimously passed the SUNNY Act 62-0. As of April 2026,
+            lawmakers in 33+ states and Washington D.C. have introduced bills to
+            legalize plug-in solar devices. Most current legislation caps
+            systems at 1,200 watts (Colorado allows up to 1,920W) and requires
+            UL 3700 safety certification.
           </p>
         </div>
 

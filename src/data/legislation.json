@@ -44,8 +44,8 @@
   "TX": { "status": "introduced", "label": "Bill reported — details unconfirmed" },
   "UT": { "status": "enacted", "label": "Enacted — HB 340 signed March 2025" },
   "VT": { "status": "introduced", "label": "Passed Senate unanimously (S.202)" },
-  "VA": { "status": "approved", "label": "Passed legislature March 2026 — Gov. Spanberger amendments pending special session (HB 395 / SB 250, effective Jan 1, 2027)" },
-  "WA": { "status": "enacted", "label": "Enacted — HB 2296 signed (Chapter 136, effective June 11, 2026)" },
+  "VA": { "status": "enacted", "label": "Enacted — HB 395 / SB 250 passed; Gov. Spanberger amendments accepted April 22, 2026 (3rd state to legalize plug-in solar; consumer rules effective Jan 1, 2027)" },
+  "WA": { "status": "introduced", "label": "HB 2296 signed but key plug-in solar provisions stripped during amendments" },
   "WV": { "status": "introduced", "label": "Bill reported — details unconfirmed" },
   "WI": { "status": "none", "label": "No known legislation" },
   "WY": { "status": "failed", "label": "Bill voted down (HB 146)" }

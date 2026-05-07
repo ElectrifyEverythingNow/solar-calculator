@@ -1,9 +1,10 @@
-import Link from "next/link";
+import TrackedLink from "@/components/TrackedLink";
 
 const projectCards = [
   {
     title: "Build my electrification roadmap",
     href: "/start",
+    tool_id: "project_starter",
     description:
       "Start with the highest-impact projects first. Get a simple sequence based on likely savings, urgency, and expensive-mistake risk.",
     cta: "Start my roadmap",
@@ -11,6 +12,7 @@ const projectCards = [
   {
     title: "I was told I need a panel upgrade",
     href: "/panel-checker",
+    tool_id: "panel_checker",
     description:
       "Get a homeowner-friendly second opinion before assuming a full service upgrade is the only path.",
     cta: "Check my panel options",
@@ -18,6 +20,7 @@ const projectCards = [
   {
     title: "Will a heat pump work in my climate?",
     href: "/heat-pump-fit",
+    tool_id: "heat_pump_fit",
     description:
       "Check whether a quoted heat pump is likely to keep up in cold weather, and how many hours per year it may be challenged.",
     cta: "Check heat pump fit",
@@ -25,6 +28,7 @@ const projectCards = [
   {
     title: "I want balcony solar",
     href: "/solar",
+    tool_id: "solar",
     description:
       "Use the standalone Balcony Solar Calculator to check rules, sun exposure, and whether plug-in solar is worth exploring.",
     cta: "Open balcony solar tool",
@@ -58,18 +62,32 @@ export default function HomePage() {
             you are installing.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
+            <TrackedLink
               href="/start"
+              eventName="homepage_navigation_clicked"
+              analyticsPayload={{
+                source: "hero",
+                destination: "/start",
+                label: "Start with my project",
+                tool_id: "project_starter",
+              }}
               className="rounded-xl bg-emerald-400 px-5 py-3 text-center font-bold text-zinc-950 hover:bg-emerald-300"
             >
               Start with my project
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
               href="/panel-checker"
+              eventName="homepage_navigation_clicked"
+              analyticsPayload={{
+                source: "hero",
+                destination: "/panel-checker",
+                label: "Check if I really need a panel upgrade",
+                tool_id: "panel_checker",
+              }}
               className="rounded-xl border border-zinc-700 px-5 py-3 text-center font-bold text-zinc-100 hover:border-emerald-400 hover:text-emerald-200"
             >
               Check if I really need a panel upgrade
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </section>
@@ -105,22 +123,39 @@ export default function HomePage() {
               Pick the question that sounds closest. If you are not sure, use the Project Starter.
             </p>
           </div>
-          <Link href="/start" className="text-sm font-bold text-emerald-300 hover:text-emerald-200">
+          <TrackedLink
+            href="/start"
+            eventName="homepage_navigation_clicked"
+            analyticsPayload={{
+              source: "section_link",
+              destination: "/start",
+              label: "Open Project Starter →",
+              tool_id: "project_starter",
+            }}
+            className="text-sm font-bold text-emerald-300 hover:text-emerald-200"
+          >
             Open Project Starter →
-          </Link>
+          </TrackedLink>
         </div>
 
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {projectCards.map((card) => (
-            <Link
+            <TrackedLink
               key={card.title}
               href={card.href}
+              eventName="homepage_navigation_clicked"
+              analyticsPayload={{
+                source: "project_card",
+                destination: card.href,
+                label: card.cta,
+                tool_id: card.tool_id,
+              }}
               className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-xl transition hover:border-emerald-400/70 hover:bg-zinc-900/80"
             >
               <h3 className="text-xl font-extrabold text-white">{card.title}</h3>
               <p className="mt-3 text-sm leading-6 text-zinc-400">{card.description}</p>
               <p className="mt-5 text-sm font-bold text-emerald-300">{card.cta} →</p>
-            </Link>
+            </TrackedLink>
           ))}
         </div>
       </section>

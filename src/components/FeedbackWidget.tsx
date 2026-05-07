@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type FeedbackWidgetProps = {
   toolId: string;
@@ -61,6 +62,12 @@ export function FeedbackWidget({
         body: form,
       });
       setStatus("submitted");
+      trackEvent("feedback_submitted", {
+        tool_id: toolId,
+        result_type: resultType,
+        source,
+        usefulness_rating: rating,
+      });
       setUserGoal("");
       setConfused("");
       setBetter("");

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FeedbackWidget } from "@/components/FeedbackWidget";
+import { trackEvent } from "@/lib/analytics";
 
 type Project =
   | "roadmap"
@@ -175,6 +176,20 @@ export default function ProjectStarterPage() {
 
   const result = useMemo(() => recommendation(project, trigger, goal), [project, trigger, goal]);
 
+  useEffect(() => {
+    trackEvent("project_starter_viewed", { tool_id: "project_starter" });
+  }, []);
+
+  useEffect(() => {
+    trackEvent("project_starter_recommendation_changed", {
+      tool_id: "project_starter",
+      project_type: project,
+      trigger,
+      goal,
+      result_type: result.title,
+    });
+  }, [goal, project, result.title, trigger]);
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-50">
       <section className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
@@ -215,7 +230,15 @@ export default function ProjectStarterPage() {
                 <span className="text-sm font-bold text-zinc-200">1. What are you considering?</span>
                 <select
                   value={project}
-                  onChange={(event) => setProject(event.target.value as Project)}
+                  onChange={(event) => {
+                    const nextProject = event.target.value as Project;
+                    setProject(nextProject);
+                    trackEvent("project_starter_step_completed", {
+                      tool_id: "project_starter",
+                      step_id: "project",
+                      project_type: nextProject,
+                    });
+                  }}
                   className="mt-2 w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-white"
                 >
                   {projectOptions.map((option) => (
@@ -228,7 +251,15 @@ export default function ProjectStarterPage() {
                 <span className="text-sm font-bold text-zinc-200">2. What triggered this?</span>
                 <select
                   value={trigger}
-                  onChange={(event) => setTrigger(event.target.value as Trigger)}
+                  onChange={(event) => {
+                    const nextTrigger = event.target.value as Trigger;
+                    setTrigger(nextTrigger);
+                    trackEvent("project_starter_step_completed", {
+                      tool_id: "project_starter",
+                      step_id: "trigger",
+                      trigger: nextTrigger,
+                    });
+                  }}
                   className="mt-2 w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-white"
                 >
                   {triggerOptions.map((option) => (
@@ -241,7 +272,15 @@ export default function ProjectStarterPage() {
                 <span className="text-sm font-bold text-zinc-200">3. What are you trying to do?</span>
                 <select
                   value={goal}
-                  onChange={(event) => setGoal(event.target.value as Goal)}
+                  onChange={(event) => {
+                    const nextGoal = event.target.value as Goal;
+                    setGoal(nextGoal);
+                    trackEvent("project_starter_step_completed", {
+                      tool_id: "project_starter",
+                      step_id: "goal",
+                      goal: nextGoal,
+                    });
+                  }}
                   className="mt-2 w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-white"
                 >
                   {goalOptions.map((option) => (
@@ -258,6 +297,16 @@ export default function ProjectStarterPage() {
             <p className="mt-4 text-sm leading-6 text-zinc-200">{result.body}</p>
             <Link
               href={result.href}
+              onClick={() => {
+                trackEvent("project_starter_completed", {
+                  tool_id: "project_starter",
+                  project_type: project,
+                  trigger,
+                  goal,
+                  result_type: result.title,
+                  destination: result.href,
+                });
+              }}
               className="mt-6 inline-flex rounded-xl bg-emerald-400 px-5 py-3 font-bold text-zinc-950 hover:bg-emerald-300"
             >
               {result.cta}

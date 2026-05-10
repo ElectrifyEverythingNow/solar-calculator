@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const steps = [
   {
     number: 1,
@@ -73,21 +75,21 @@ export default function HowToInstallPage() {
       >
         <ol className="flex items-center gap-1.5 text-sm text-zinc-400">
           <li>
-            <a
+            <Link
               href="/"
               className="hover:text-green-600 underline underline-offset-2"
             >
               Home
-            </a>
+            </Link>
           </li>
           <li aria-hidden="true">/</li>
           <li>
-            <a
+            <Link
               href="/solar"
               className="hover:text-green-600 underline underline-offset-2"
             >
               Solar Calculator
-            </a>
+            </Link>
           </li>
           <li aria-hidden="true">/</li>
           <li className="text-zinc-600 font-medium">How to Install</li>
@@ -187,7 +189,7 @@ export default function HowToInstallPage() {
                     {step.description}
                   </p>
                   {step.link && (
-                    <a
+                    <Link
                       href={step.link.href}
                       className="inline-flex items-center gap-1.5 text-green-600 hover:text-green-700 font-medium text-sm mt-3"
                     >
@@ -205,7 +207,7 @@ export default function HowToInstallPage() {
                           d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
                         />
                       </svg>
-                    </a>
+                    </Link>
                   )}
                   {step.externalLink && (
                     <a
@@ -299,7 +301,7 @@ export default function HowToInstallPage() {
           Run the free calculator to estimate your payback period, annual
           savings, and 20-year return based on your location and utility rate.
         </p>
-        <a
+        <Link
           href="/solar"
           className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-6 py-3 rounded-lg hover:bg-green-50 transition-colors shadow-lg"
         >
@@ -317,25 +319,25 @@ export default function HowToInstallPage() {
               d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
             />
           </svg>
-        </a>
+        </Link>
       </section>
 
       {/* Footer */}
       <footer className="w-full py-6 text-center text-sm text-zinc-400 border-t border-zinc-100">
         <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs">
-          <a
+          <Link
             href="/solar"
             className="text-zinc-500 hover:text-green-600 underline underline-offset-2"
           >
             Solar Calculator
-          </a>
+          </Link>
           <span className="text-zinc-300">|</span>
-          <a
+          <Link
             href="/"
             className="text-zinc-500 hover:text-green-600 underline underline-offset-2"
           >
             ElectrifyEverythingNow.com
-          </a>
+          </Link>
           <span className="text-zinc-300">|</span>
           <a
             href="https://solarrights.org/plug-in/"
@@ -366,12 +368,12 @@ export default function HowToInstallPage() {
         </nav>
         <p className="mt-2">
           &copy; {new Date().getFullYear()}{" "}
-          <a
+          <Link
             href="/"
             className="text-zinc-500 hover:text-green-600 underline underline-offset-2"
           >
             ElectrifyEverythingNow.com
-          </a>
+          </Link>
         </p>
         <p className="mt-1">
           Built by{" "}

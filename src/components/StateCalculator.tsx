@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { USMap } from "@/components/USMap";
 import { UtilityComparison } from "@/components/UtilityComparison";
@@ -30,8 +31,10 @@ interface StateCalculatorProps {
 }
 
 export function StateCalculator({ initialStateCode }: StateCalculatorProps) {
-  const [selectedState, setSelectedState] = useState<string | null>(null);
-  const [selectedUtility, setSelectedUtility] = useState<Utility | null>(null);
+  const [selectedState, setSelectedState] = useState<string | null>(initialStateCode);
+  const [selectedUtility, setSelectedUtility] = useState<Utility | null>(() =>
+    initialStateCode ? getLargestUtility(initialStateCode) : null
+  );
   const [customRate, setCustomRate] = useState<number | null>(null);
   const [systemSizeW, setSystemSizeW] = useState(1200);
   const [systemCost, setSystemCost] = useState(2000);
@@ -40,7 +43,6 @@ export function StateCalculator({ initialStateCode }: StateCalculatorProps) {
   const [pvwattsKwh, setPvwattsKwh] = useState<number | null>(null);
   const [calcCount, setCalcCount] = useState<number | null>(null);
 
-  const initialApplied = useRef(false);
 
   // Fetch counter on mount
   useEffect(() => {
@@ -70,18 +72,6 @@ export function StateCalculator({ initialStateCode }: StateCalculatorProps) {
     },
     [incrementCounter]
   );
-
-  // Apply initialStateCode on mount
-  useEffect(() => {
-    if (
-      initialStateCode &&
-      !initialApplied.current &&
-      initialStateCode !== selectedState
-    ) {
-      initialApplied.current = true;
-      handleSelectState(initialStateCode);
-    }
-  }, [initialStateCode, selectedState, handleSelectState]);
 
   const ratePerKwh = selectedUtility?.ratePerKwh ?? customRate;
   const stateInfo = selectedState
@@ -263,7 +253,7 @@ export function StateCalculator({ initialStateCode }: StateCalculatorProps) {
           homeowners.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 bg-white text-green-700 font-semibold px-6 py-3 rounded-lg hover:bg-green-50 transition-colors shadow-lg"
           >
@@ -281,13 +271,13 @@ export function StateCalculator({ initialStateCode }: StateCalculatorProps) {
                 d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
               />
             </svg>
-          </a>
-          <a
+          </Link>
+          <Link
             href="/rates"
             className="inline-flex items-center gap-2 bg-white/20 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/30 transition-colors border border-white/30"
           >
             Electricity Rate Comparison
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -301,19 +291,19 @@ export function StateCalculator({ initialStateCode }: StateCalculatorProps) {
           orientation, shading, and local conditions.
         </p>
         <nav className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs">
-          <a
+          <Link
             href="/"
             className="text-zinc-500 hover:text-green-600 underline underline-offset-2"
           >
             ElectrifyEverythingNow.com
-          </a>
+          </Link>
           <span className="text-zinc-300">|</span>
-          <a
+          <Link
             href="/rates"
             className="text-zinc-500 hover:text-green-600 underline underline-offset-2"
           >
             Rate Comparison
-          </a>
+          </Link>
           <span className="text-zinc-300">|</span>
           <a
             href="https://solarrights.org/plug-in/"
@@ -335,12 +325,12 @@ export function StateCalculator({ initialStateCode }: StateCalculatorProps) {
         </nav>
         <p className="mt-2">
           &copy; {new Date().getFullYear()}{" "}
-          <a
+          <Link
             href="/"
             className="text-zinc-500 hover:text-green-600 underline underline-offset-2"
           >
             ElectrifyEverythingNow.com
-          </a>
+          </Link>
         </p>
         <p className="mt-1">
           Built by{" "}

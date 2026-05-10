@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 const TOOL_URL = "https://electrifyeverythingnow.com/panel-checker";
 const SHARE_TEXT =
   "Check if your electrical panel can handle home electrification before approving an expensive upgrade.";
@@ -11,13 +9,8 @@ interface ShareButtonsProps {
 }
 
 export function ShareButtons({ onPrint }: ShareButtonsProps) {
-  const [canShare, setCanShare] = useState(false);
-
-  useEffect(() => {
-    setCanShare(
-      typeof navigator !== "undefined" && typeof navigator.share === "function",
-    );
-  }, []);
+  const canShare =
+    typeof navigator !== "undefined" && typeof navigator.share === "function";
 
   function nativeShare() {
     if (typeof navigator === "undefined" || !navigator.share) return;

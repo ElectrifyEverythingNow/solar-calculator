@@ -43,16 +43,30 @@ function PanelCheckerInner() {
   const [response, setResponse] = useState<AnalyzePanelResponse | null>(null);
   const [overrides, setOverrides] = useState<Partial<DetectedPanel>>({});
   const resultsRef = useRef<HTMLDivElement>(null);
+  const previewUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!file) {
+    return () => {
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    };
+  }, []);
+
+  function setSelectedFile(next: File | null) {
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+      previewUrlRef.current = null;
+    }
+
+    setFile(next);
+    if (!next) {
       setPreviewUrl(null);
       return;
     }
-    const url = URL.createObjectURL(file);
+
+    const url = URL.createObjectURL(next);
+    previewUrlRef.current = url;
     setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+  }
 
   useEffect(() => {
     if (response && resultsRef.current) {
@@ -65,18 +79,20 @@ function PanelCheckerInner() {
     setApiError(null);
     setApiWarning(null);
     if (!next) {
-      setFile(null);
+      setSelectedFile(null);
       return;
     }
     if (!next.type.startsWith("image/")) {
+      setSelectedFile(null);
       setUploadError("Please choose an image file (JPEG, PNG, or WEBP).");
       return;
     }
     if (next.size > MAX_BYTES) {
+      setSelectedFile(null);
       setUploadError("Image is too large. Please pick one under 12 MB.");
       return;
     }
-    setFile(next);
+    setSelectedFile(next);
   }
 
   async function handleAnalyze() {
@@ -194,7 +210,7 @@ function PanelCheckerInner() {
       const sampleFile = new File([blob], "sample-panel.svg", {
         type: blob.type || "image/svg+xml",
       });
-      setFile(sampleFile);
+      setSelectedFile(sampleFile);
       setSelected(SAMPLE_SELECTED_UPGRADES);
       // Skip the API call — use a hardcoded sample so the demo always works.
       setResponse({

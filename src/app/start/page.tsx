@@ -51,6 +51,7 @@ const goalOptions: { value: Goal; label: string }[] = [
 function recommendation(project: Project, trigger: Trigger, goal: Goal) {
   if (project === "roadmap" || project === "not-sure" || goal === "plan-sequence" || goal === "save-money") {
     return {
+      kind: "roadmap" as Project,
       title: "Start with an electrification roadmap, not rates",
       body:
         "The first decision is usually project order. Start with the upgrades most likely to cut fossil-fuel use and bills: heat pump HVAC, heat pump water heater, smart panel/EV planning, then smaller projects. Rate optimization is useful after you know what loads you are adding.",
@@ -67,6 +68,7 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
 
   if (project === "panel" || (trigger === "quote" && goal === "avoid-mistake")) {
     return {
+      kind: "panel" as Project,
       title: "Start with the Panel Upgrade Second Opinion",
       body:
         "Before assuming you need a full service upgrade, separate breaker-space problems from actual electrical capacity problems. The tool will give you questions to ask an electrician.",
@@ -82,6 +84,7 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
 
   if (project === "balcony-solar") {
     return {
+      kind: "balcony-solar" as Project,
       title: "Start with the Balcony Solar Calculator",
       body:
         "Rules are changing quickly. Check whether your state, building, outlet setup, and sun exposure make plug-in or balcony solar worth exploring before buying anything.",
@@ -97,6 +100,7 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
 
   if (project === "post-install-rates") {
     return {
+      kind: "post-install-rates" as Project,
       title: "Use the Rate Optimizer after the project is defined",
       body:
         "Rates are important, but they are usually a second-step decision. Use this after a heat pump, EV charger, battery, or solar install is likely so you can compare plans against your future load shape.",
@@ -112,6 +116,7 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
 
   if (project === "heat-pump") {
     return {
+      kind: "heat-pump" as Project,
       title: "Use the Heat Pump Cold-Weather Fit Checker",
       body:
         "Start by checking whether a quoted heat pump size and model family is likely to keep up in your climate. The tool estimates the cold-weather hours when the system may be challenged, then gives contractor questions about sizing, backup heat, and exact model performance.",
@@ -127,6 +132,7 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
 
   if (project === "hpwh") {
     return {
+      kind: "hpwh" as Project,
       title: "Heat Pump Water Heater Fit Checker is the next simple tool",
       body:
         "The tool is coming next. The main early question is whether your water heater location has enough air volume, drainage, electrical path, and noise tolerance.",
@@ -142,6 +148,7 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
 
   if (project === "ev-charging" || trigger === "new-ev") {
     return {
+      kind: "ev-charging" as Project,
       title: "Start with panel questions, then EV charger sizing",
       body:
         "Most homeowners need reliable overnight charging, not the maximum charger size. Lower-amp Level 2, Level 1, load sharing, or dynamic load management may avoid bigger electrical work.",
@@ -156,6 +163,7 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
   }
 
   return {
+    kind: "roadmap" as Project,
     title: "Start with the highest-savings roadmap",
     body:
       "If you are not sure where to begin, prioritize the projects most likely to change household energy use first: space heating, water heating, driving, then cooking and smaller loads. Check panel risk before approving expensive electrical work.",
@@ -169,12 +177,104 @@ function recommendation(project: Project, trigger: Trigger, goal: Goal) {
   };
 }
 
+function contractorChecklist(project: Project, resultTitle: string) {
+  const shared = [
+    "Confirm what permits, inspections, utility approvals, or AHJ requirements apply before work starts.",
+    "Ask for a written scope that separates equipment, electrical work, permits, utility coordination, and optional add-ons.",
+  ];
+
+  if (project === "panel") {
+    return [
+      "Ask whether the problem is breaker space, service/load capacity, panel condition, or a local code/AHJ requirement.",
+      "Ask for a load calculation and whether load management, tandem breakers, a subpanel, or circuit sharing could avoid a full service upgrade.",
+      "Confirm whether the quote includes utility coordination, meter work, trenching, drywall/patching, and permit fees.",
+      "Ask what future loads the design assumes: heat pump HVAC, heat pump water heater, EV charging, induction, solar, or battery.",
+      ...shared,
+    ];
+  }
+
+  if (project === "heat-pump") {
+    return [
+      "Ask whether the quote is based on a Manual J or other room-by-room sizing method, not just the old furnace size.",
+      "Request the exact outdoor and indoor model numbers and their low-temperature heating capacity for your climate.",
+      "Ask how backup heat will work, when it turns on, and whether it is included in the electrical scope.",
+      "Confirm ductwork, thermostat, condensate, line-set, noise, and warranty details in writing.",
+      ...shared,
+    ];
+  }
+
+  if (project === "hpwh") {
+    return [
+      "Confirm the water heater location has enough air volume, drainage/condensate handling, clearance, and acceptable noise.",
+      "Ask whether a 120V, 240V, shared circuit, or panel work option is being proposed and why.",
+      "Ask how the installer will handle mixing valves, seismic strapping, venting/capping old gas lines, and disposal of the old unit.",
+      "Plan timing before emergency replacement if possible, so you are not pushed back into a like-for-like gas unit.",
+      ...shared,
+    ];
+  }
+
+  if (project === "ev-charging") {
+    return [
+      "Share daily miles, overnight parking time, and vehicle charging limits before choosing charger amperage.",
+      "Ask whether Level 1, lower-amp Level 2, load sharing, or dynamic load management can meet your needs without a panel upgrade.",
+      "Confirm charger location, conduit path, weather rating, GFCI/breaker needs, and whether the charger is hardwired or plug-in.",
+      "Ask your utility about EV rates, rebates, and any required charger enrollment before installation.",
+      ...shared,
+    ];
+  }
+
+  if (project === "balcony-solar") {
+    return [
+      "Verify state, utility, building, HOA, landlord, and local electrical rules before buying equipment.",
+      "Ask what outlet type, circuit rating, mounting method, disconnects, and anti-islanding or interconnection requirements apply.",
+      "Check sun exposure, shading, wind, railing/wall attachment, and whether the system can be installed without creating a hazard.",
+      "Compare balcony solar with community solar or utility green-power options if rules or site conditions are weak.",
+      ...shared,
+    ];
+  }
+
+  if (project === "post-install-rates") {
+    return [
+      "Gather one year of usage if available and note when the new heat pump, EV, battery, or solar system usually runs.",
+      "Ask the utility which rates you are eligible for and how time-of-use windows, minimum bills, demand charges, and export credits work.",
+      "Confirm whether EV, solar, battery, or heat pump programs require specific equipment settings or enrollment.",
+      "Set a calendar reminder to re-check the rate after you have a few months of real post-install usage.",
+      ...shared,
+    ];
+  }
+
+  return [
+    `Start from the current recommendation: ${resultTitle}. Ask the contractor how their proposal supports that sequence.`,
+    "List the big future loads you may add: heat pump HVAC, heat pump water heater, EV charging, induction, solar, or battery.",
+    "Ask which work should happen now versus later so you do not pay twice for electrical, drywall, or permit work.",
+    "Ask for options, not just one quote: right-sized equipment, load management, phased work, and rebate-aware timing.",
+    ...shared,
+  ];
+}
+
+function checklistCopyText(resultTitle: string, items: string[]) {
+  return [
+    "Contractor checklist",
+    resultTitle,
+    "",
+    ...items.map((item, index) => `${index + 1}. ${item}`),
+    "",
+    "EEN caveat: This is planning support, not electrical or legal advice. Verify details with a licensed electrician or contractor, your utility, and your local authority having jurisdiction (AHJ) as relevant.",
+  ].join("\n");
+}
+
 export default function ProjectStarterPage() {
   const [project, setProject] = useState<Project>("roadmap");
   const [trigger, setTrigger] = useState<Trigger>("curious");
   const [goal, setGoal] = useState<Goal>("avoid-mistake");
+  const [checklistCopyStatus, setChecklistCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
 
   const result = useMemo(() => recommendation(project, trigger, goal), [project, trigger, goal]);
+  const checklistItems = useMemo(() => contractorChecklist(result.kind, result.title), [result.kind, result.title]);
+  const checklistText = useMemo(
+    () => checklistCopyText(result.title, checklistItems),
+    [checklistItems, result.title],
+  );
 
   useEffect(() => {
     trackEvent("project_starter_viewed", { tool_id: "project_starter" });
@@ -233,6 +333,7 @@ export default function ProjectStarterPage() {
                   onChange={(event) => {
                     const nextProject = event.target.value as Project;
                     setProject(nextProject);
+                    setChecklistCopyStatus("idle");
                     trackEvent("project_starter_step_completed", {
                       tool_id: "project_starter",
                       step_id: "project",
@@ -254,6 +355,7 @@ export default function ProjectStarterPage() {
                   onChange={(event) => {
                     const nextTrigger = event.target.value as Trigger;
                     setTrigger(nextTrigger);
+                    setChecklistCopyStatus("idle");
                     trackEvent("project_starter_step_completed", {
                       tool_id: "project_starter",
                       step_id: "trigger",
@@ -275,6 +377,7 @@ export default function ProjectStarterPage() {
                   onChange={(event) => {
                     const nextGoal = event.target.value as Goal;
                     setGoal(nextGoal);
+                    setChecklistCopyStatus("idle");
                     trackEvent("project_starter_step_completed", {
                       tool_id: "project_starter",
                       step_id: "goal",
@@ -319,6 +422,92 @@ export default function ProjectStarterPage() {
             </div>
           </section>
         </div>
+
+        <section
+          aria-labelledby="contractor-checklist-heading"
+          className="mt-8 rounded-3xl border border-zinc-800 bg-zinc-900 p-6 shadow-xl"
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-wide text-emerald-300">Contractor-ready checklist</p>
+              <h2 id="contractor-checklist-heading" className="mt-2 text-2xl font-black text-white">
+                Questions to bring to a contractor
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-300">
+                Use this as a no-pressure starting point for the recommendation above. You do not need to share your email or upload photos to use it.
+              </p>
+            </div>
+            <div className="sm:text-right">
+              <button
+                type="button"
+                onClick={async () => {
+                  let copied = false;
+
+                  const copyWithFallback = () => {
+                    if (typeof document === "undefined") return false;
+
+                    const textarea = document.createElement("textarea");
+                    textarea.value = checklistText;
+                    textarea.setAttribute("readonly", "");
+                    textarea.style.position = "fixed";
+                    textarea.style.left = "-9999px";
+                    document.body.appendChild(textarea);
+
+                    try {
+                      textarea.select();
+                      return document.execCommand("copy");
+                    } catch {
+                      return false;
+                    } finally {
+                      document.body.removeChild(textarea);
+                    }
+                  };
+
+                  if (navigator.clipboard?.writeText) {
+                    try {
+                      await navigator.clipboard.writeText(checklistText);
+                      copied = true;
+                    } catch {
+                      copied = copyWithFallback();
+                    }
+                  } else {
+                    copied = copyWithFallback();
+                  }
+
+                  setChecklistCopyStatus(copied ? "copied" : "failed");
+                  trackEvent("project_starter_checklist_copied", {
+                    tool_id: "project_starter",
+                    project_type: project,
+                    result_type: result.title,
+                    copy_result: copied ? "success" : "failed",
+                  });
+                }}
+                className="inline-flex rounded-xl bg-zinc-50 px-5 py-3 font-bold text-zinc-950 hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-zinc-900"
+              >
+                Copy checklist
+              </button>
+              <p aria-live="polite" className="mt-2 min-h-5 text-sm text-zinc-400">
+                {checklistCopyStatus === "copied"
+                  ? "Copied to clipboard."
+                  : checklistCopyStatus === "failed"
+                    ? "Copy did not work. You can still select the questions below."
+                    : ""}
+              </p>
+            </div>
+          </div>
+
+          <ol className="mt-6 list-decimal space-y-3 pl-5 text-sm leading-6 text-zinc-200">
+            {checklistItems.map((item) => (
+              <li key={item} className="rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 pl-5">
+                {item}
+              </li>
+            ))}
+          </ol>
+
+          <p className="mt-5 rounded-2xl border border-amber-300/30 bg-amber-300/10 p-4 text-sm leading-6 text-amber-100">
+            EEN caveat: This is planning support, not electrical or legal advice. Verify details with a licensed electrician or contractor, your utility, and your local authority having jurisdiction (AHJ) as relevant.
+          </p>
+        </section>
 
         <div className="mt-8 rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
           <FeedbackWidget

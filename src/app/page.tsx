@@ -1,3 +1,4 @@
+import { FeedbackWidget } from "@/components/FeedbackWidget";
 import TrackedLink from "@/components/TrackedLink";
 
 const projectCards = [
@@ -172,6 +173,15 @@ export default function HomePage() {
                 {item}
               </div>
             ))}
+          </div>
+          <div className="mt-6">
+            <FeedbackWidget
+              toolId="homepage"
+              resultType="homepage"
+              source="homepage"
+              title="What would make this site more useful?"
+              compact
+            />
           </div>
         </div>
       </section>

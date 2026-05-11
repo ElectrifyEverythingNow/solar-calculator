@@ -35,13 +35,13 @@ const projectCards = [
   },
 ];
 
-const comingSoon = [
-  "Electrification roadmap based on likely energy savings",
-  "Heat pump cold-weather fit checker",
+const nextImprovements = [
   "Heat pump water heater fit checker",
-  "EV charger without panel upgrade planner",
-  "Post-install rate optimizer",
+  "EV charging without panel-upgrade planner",
   "Contractor quote question generator",
+  "Better rebate and rate guidance",
+  "Printable contractor checklists",
+  "Optional photo help for labels and quotes",
 ];
 
 export default function HomePage() {
@@ -162,12 +162,12 @@ export default function HomePage() {
 
       <section className="mx-auto max-w-6xl px-6 pb-16">
         <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-8">
-          <h2 className="text-2xl font-black">Next tools being built</h2>
+          <h2 className="text-2xl font-black">What we are building next</h2>
           <p className="mt-2 text-zinc-400">
-            These are the next homeowner tools the agent system is prioritizing.
+            Improvements focused on clearer decisions before you hire anyone — still independent, free, and no signup required.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {comingSoon.map((item) => (
+            {nextImprovements.map((item) => (
               <div key={item} className="rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm font-semibold text-zinc-200">
                 {item}
               </div>

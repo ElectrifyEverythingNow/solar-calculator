@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { FeedbackWidget } from "@/components/FeedbackWidget";
 import { trackEvent } from "@/lib/analytics";
 import {
   checklistCopyText,
   contractorChecklist,
   goalOptions,
+  projectStarterPrefill,
   projectOptions,
   recommendation,
   triggerOptions,
@@ -17,9 +19,29 @@ import {
 } from "@/lib/project-starter";
 
 export default function ProjectStarterPage() {
-  const [project, setProject] = useState<Project>("roadmap");
-  const [trigger, setTrigger] = useState<Trigger>("curious");
-  const [goal, setGoal] = useState<Goal>("avoid-mistake");
+  return (
+    <Suspense fallback={<ProjectStarterFallback />}>
+      <ProjectStarterContent />
+    </Suspense>
+  );
+}
+
+function ProjectStarterFallback() {
+  return (
+    <main className="min-h-screen bg-zinc-950 text-zinc-50">
+      <section className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+        <p className="text-sm font-bold text-emerald-300">Loading Project Starter…</p>
+      </section>
+    </main>
+  );
+}
+
+function ProjectStarterContent() {
+  const searchParams = useSearchParams();
+  const prefill = useMemo(() => projectStarterPrefill(searchParams), [searchParams]);
+  const [project, setProject] = useState<Project>(prefill.project);
+  const [trigger, setTrigger] = useState<Trigger>(prefill.trigger);
+  const [goal, setGoal] = useState<Goal>(prefill.goal);
   const [checklistCopyStatus, setChecklistCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
 
   const result = useMemo(() => recommendation(project, trigger, goal), [project, trigger, goal]);
@@ -32,6 +54,13 @@ export default function ProjectStarterPage() {
   useEffect(() => {
     trackEvent("project_starter_viewed", { tool_id: "project_starter" });
   }, []);
+
+  useEffect(() => {
+    setProject(prefill.project);
+    setTrigger(prefill.trigger);
+    setGoal(prefill.goal);
+    setChecklistCopyStatus("idle");
+  }, [prefill.goal, prefill.project, prefill.trigger]);
 
   useEffect(() => {
     trackEvent("project_starter_recommendation_changed", {

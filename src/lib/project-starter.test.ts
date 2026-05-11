@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checklistCopyText, contractorChecklist, recommendation } from "./project-starter";
+import { checklistCopyText, contractorChecklist, projectStarterPrefill, recommendation } from "./project-starter";
 
 describe("project starter recommendations", () => {
   it("sends quote and avoid-mistake answers to Panel Checker with breaker and load-capacity checklist language", () => {
@@ -74,5 +74,29 @@ describe("checklistCopyText", () => {
     expect(text).toContain("2. Second question");
     expect(text).toContain("EEN caveat: This is planning support, not electrical or legal advice.");
     expect(text).toContain("authority having jurisdiction (AHJ)");
+  });
+});
+
+describe("projectStarterPrefill", () => {
+  it("accepts valid project, trigger, and goal query params", () => {
+    const prefill = projectStarterPrefill(
+      new URLSearchParams("project=panel&trigger=quote&goal=avoid-mistake"),
+    );
+
+    expect(prefill).toEqual({
+      project: "panel",
+      trigger: "quote",
+      goal: "avoid-mistake",
+    });
+  });
+
+  it("falls back to safe defaults for invalid or missing query params", () => {
+    const prefill = projectStarterPrefill(new URLSearchParams("project=bad&trigger=&goal=not-real"));
+
+    expect(prefill).toEqual({
+      project: "roadmap",
+      trigger: "curious",
+      goal: "avoid-mistake",
+    });
   });
 });

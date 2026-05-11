@@ -12,11 +12,11 @@ const projectCards = [
   },
   {
     title: "I was told I need a panel upgrade",
-    href: "/panel-checker",
-    tool_id: "panel_checker",
+    href: "/start?project=panel&trigger=quote&goal=avoid-mistake",
+    tool_id: "project_starter",
     description:
-      "Get a homeowner-friendly second opinion before assuming a full service upgrade is the only path.",
-    cta: "Check my panel options",
+      "Start with independent planning questions before assuming a full service upgrade is the only path.",
+    cta: "Start with panel questions",
   },
   {
     title: "Will a heat pump work in my climate?",

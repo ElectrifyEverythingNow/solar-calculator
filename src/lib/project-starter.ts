@@ -41,6 +41,40 @@ export const goalOptions: { value: Goal; label: string }[] = [
   { value: "check-rules", label: "Check rules, rates, or rebates" },
 ];
 
+export const defaultProjectStarterSelection = {
+  project: "roadmap",
+  trigger: "curious",
+  goal: "avoid-mistake",
+} as const satisfies { project: Project; trigger: Trigger; goal: Goal };
+
+const projectValues = new Set(projectOptions.map((option) => option.value));
+const triggerValues = new Set(triggerOptions.map((option) => option.value));
+const goalValues = new Set(goalOptions.map((option) => option.value));
+
+export function isProject(value: string | null | undefined): value is Project {
+  return typeof value === "string" && projectValues.has(value as Project);
+}
+
+export function isTrigger(value: string | null | undefined): value is Trigger {
+  return typeof value === "string" && triggerValues.has(value as Trigger);
+}
+
+export function isGoal(value: string | null | undefined): value is Goal {
+  return typeof value === "string" && goalValues.has(value as Goal);
+}
+
+export function projectStarterPrefill(params: Pick<URLSearchParams, "get"> | null | undefined) {
+  const projectParam = params?.get("project");
+  const triggerParam = params?.get("trigger");
+  const goalParam = params?.get("goal");
+
+  return {
+    project: isProject(projectParam) ? projectParam : defaultProjectStarterSelection.project,
+    trigger: isTrigger(triggerParam) ? triggerParam : defaultProjectStarterSelection.trigger,
+    goal: isGoal(goalParam) ? goalParam : defaultProjectStarterSelection.goal,
+  };
+}
+
 export function recommendation(project: Project, trigger: Trigger, goal: Goal) {
   if (project === "roadmap" || project === "not-sure") {
     return {

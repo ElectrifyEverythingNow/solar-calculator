@@ -132,7 +132,7 @@ export function recommendation(project: Project, trigger: Trigger, goal: Goal) {
       href: "/install-guide",
       cta: "Read current guides",
       next: [
-        "Take photos of the water heater, label, surrounding space, and nearby drain.",
+        "If helpful, keep your own photos of the water heater, label, surrounding space, and nearby drain. You do not need to upload photos to use this.",
         "Ask about 120V vs 240V options and whether electrical work is included.",
         "Plan before emergency replacement if you can. Emergency swaps often default back to gas.",
       ],

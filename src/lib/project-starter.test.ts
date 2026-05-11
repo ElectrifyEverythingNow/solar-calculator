@@ -37,6 +37,15 @@ describe("project starter recommendations", () => {
     expect(result.href).toBe("/heat-pump-fit");
     expect(result.cta).toBe("Check heat pump fit");
   });
+
+  it("uses optional private photo guidance for HPWH next steps", () => {
+    const result = recommendation("hpwh", "curious", "ask-contractor");
+    const nextCopy = result.next.join(" ");
+
+    expect(result.kind).toBe("hpwh");
+    expect(nextCopy).toContain("If helpful");
+    expect(nextCopy).toContain("do not need to upload photos");
+  });
 });
 
 describe("checklistCopyText", () => {

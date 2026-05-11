@@ -42,7 +42,7 @@ export const goalOptions: { value: Goal; label: string }[] = [
 ];
 
 export function recommendation(project: Project, trigger: Trigger, goal: Goal) {
-  if (project === "roadmap" || project === "not-sure" || goal === "plan-sequence" || goal === "save-money") {
+  if (project === "roadmap" || project === "not-sure") {
     return {
       kind: "roadmap" as Project,
       title: "Start with an electrification roadmap, not rates",

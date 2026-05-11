@@ -22,12 +22,28 @@ describe("project starter recommendations", () => {
     expect(result.cta).toBe("Refine my roadmap below");
   });
 
-  it("routes explicit roadmap goals to the roadmap questions", () => {
-    const result = recommendation("heat-pump", "comfort", "plan-sequence");
+  it("routes explicit roadmap project selections to the roadmap questions", () => {
+    const result = recommendation("roadmap", "comfort", "plan-sequence");
 
     expect(result.kind).toBe("roadmap");
     expect(result.href).toBe("#roadmap-questions");
     expect(result.title).toBe("Start with an electrification roadmap, not rates");
+  });
+
+  it("keeps explicit panel projects on the Panel Checker even when the goal is to save money", () => {
+    const result = recommendation("panel", "bills", "save-money");
+
+    expect(result.kind).toBe("panel");
+    expect(result.href).toBe("/panel-checker");
+    expect(result.cta).toBe("Open Panel Checker");
+  });
+
+  it("keeps explicit heat-pump projects on the Heat Pump Fit Checker even when the goal is sequencing", () => {
+    const result = recommendation("heat-pump", "comfort", "plan-sequence");
+
+    expect(result.kind).toBe("heat-pump");
+    expect(result.href).toBe("/heat-pump-fit");
+    expect(result.cta).toBe("Check heat pump fit");
   });
 
   it("routes heat-pump projects to the Heat Pump Fit Checker", () => {

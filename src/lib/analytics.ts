@@ -16,8 +16,17 @@ export function trackEvent(eventName: string, payload: AnalyticsPayload = {}) {
 
   const analyticsWindow = window as WindowWithAnalytics;
 
-  analyticsWindow.plausible?.(eventName, { props: cleanPayload });
-  analyticsWindow.dataLayer?.push({ event: eventName, ...cleanPayload });
+  try {
+    analyticsWindow.plausible?.(eventName, { props: cleanPayload });
+  } catch {
+    // Analytics should never block the tool UX.
+  }
+
+  try {
+    analyticsWindow.dataLayer?.push({ event: eventName, ...cleanPayload });
+  } catch {
+    // Analytics should never block the tool UX.
+  }
 
   if (ANALYTICS_ENDPOINT) {
     const body = JSON.stringify({

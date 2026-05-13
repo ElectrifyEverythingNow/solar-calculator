@@ -14,9 +14,11 @@ export function ShareButtons({ onPrint }: ShareButtonsProps) {
   const [canShare, setCanShare] = useState(false);
 
   useEffect(() => {
-    setCanShare(
-      typeof navigator !== "undefined" && typeof navigator.share === "function",
-    );
+    const timeoutId = window.setTimeout(() => {
+      setCanShare(typeof navigator.share === "function");
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
   }, []);
 
   function nativeShare() {

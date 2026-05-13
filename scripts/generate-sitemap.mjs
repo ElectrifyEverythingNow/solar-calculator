@@ -13,9 +13,13 @@ const BASE = "https://electrifyeverythingnow.com";
 const today = new Date().toISOString().split("T")[0];
 
 const staticPages = [
-  { loc: "/solar", priority: "1.0", changefreq: "weekly" },
-  { loc: "/rates", priority: "0.8", changefreq: "monthly" },
-  { loc: "/panel-checker", priority: "0.8", changefreq: "monthly" },
+  { loc: "/", priority: "1.0", changefreq: "weekly" },
+  { loc: "/start", priority: "1.0", changefreq: "weekly" },
+  { loc: "/panel-checker", priority: "0.9", changefreq: "monthly" },
+  { loc: "/heat-pump-fit", priority: "0.8", changefreq: "monthly" },
+  { loc: "/deathclock", priority: "0.8", changefreq: "monthly" },
+  { loc: "/solar", priority: "0.8", changefreq: "weekly" },
+  { loc: "/rates", priority: "0.7", changefreq: "monthly" },
   { loc: "/install-guide", priority: "0.6", changefreq: "monthly" },
   { loc: "/solar/how-to-install", priority: "0.8", changefreq: "monthly" },
 ];

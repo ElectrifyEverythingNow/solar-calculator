@@ -34,6 +34,19 @@ export function FeedbackWidget({
     return window.location.href;
   }, []);
 
+  function handleRatingSelect(value: string) {
+    setRating(value);
+
+    if (value !== rating) {
+      trackEvent("feedback_rating_selected", {
+        tool_id: toolId,
+        result_type: resultType,
+        source,
+        usefulness_rating: value,
+      });
+    }
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -105,7 +118,8 @@ export function FeedbackWidget({
             <button
               key={value}
               type="button"
-              onClick={() => setRating(value)}
+              aria-pressed={rating === value}
+              onClick={() => handleRatingSelect(value)}
               className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
                 rating === value
                   ? "border-green-600 bg-green-600 text-white"

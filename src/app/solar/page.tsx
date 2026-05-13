@@ -8,7 +8,7 @@ function SolarPageContent() {
   const searchParams = useSearchParams();
   const stateParam = searchParams.get("state");
 
-  return <StateCalculator initialStateCode={stateParam} />;
+  return <StateCalculator key={stateParam ?? "all-states"} initialStateCode={stateParam} />;
 }
 
 export default function SolarPage() {

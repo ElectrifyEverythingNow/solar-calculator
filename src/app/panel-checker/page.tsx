@@ -25,6 +25,7 @@ import { fallbackAnalysis } from "@/lib/panel-checker/normalize";
 import { EmailCapture } from "@/components/panel-checker/EmailCapture";
 import { NextSteps } from "@/components/panel-checker/NextSteps";
 import { FeedbackWidget } from "@/components/FeedbackWidget";
+import { trackEvent } from "@/lib/analytics";
 
 const MAX_BYTES = 12 * 1024 * 1024;
 
@@ -43,16 +44,34 @@ function PanelCheckerInner() {
   const [response, setResponse] = useState<AnalyzePanelResponse | null>(null);
   const [overrides, setOverrides] = useState<Partial<DetectedPanel>>({});
   const resultsRef = useRef<HTMLDivElement>(null);
+  const previewUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!file) {
+    trackEvent("panel_checker_viewed", { tool_id: "panel_checker" });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+    };
+  }, []);
+
+  function setSelectedFile(next: File | null) {
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+      previewUrlRef.current = null;
+    }
+
+    setFile(next);
+    if (!next) {
       setPreviewUrl(null);
       return;
     }
-    const url = URL.createObjectURL(file);
+
+    const url = URL.createObjectURL(next);
+    previewUrlRef.current = url;
     setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+  }
 
   useEffect(() => {
     if (response && resultsRef.current) {
@@ -65,18 +84,34 @@ function PanelCheckerInner() {
     setApiError(null);
     setApiWarning(null);
     if (!next) {
-      setFile(null);
+      setSelectedFile(null);
       return;
     }
     if (!next.type.startsWith("image/")) {
+      setSelectedFile(null);
       setUploadError("Please choose an image file (JPEG, PNG, or WEBP).");
+      trackEvent("panel_checker_upload_rejected", {
+        tool_id: "panel_checker",
+        reason: "not_image",
+      });
       return;
     }
     if (next.size > MAX_BYTES) {
+      setSelectedFile(null);
       setUploadError("Image is too large. Please pick one under 12 MB.");
+      trackEvent("panel_checker_upload_rejected", {
+        tool_id: "panel_checker",
+        reason: "too_large",
+        file_size_bytes: next.size,
+      });
       return;
     }
-    setFile(next);
+    setSelectedFile(next);
+    trackEvent("panel_checker_photo_selected", {
+      tool_id: "panel_checker",
+      file_type: next.type,
+      file_size_bytes: next.size,
+    });
   }
 
   async function handleAnalyze() {
@@ -93,6 +128,10 @@ function PanelCheckerInner() {
     setApiWarning(null);
     setResponse(null);
     setOverrides({});
+    trackEvent("panel_checker_analyze_started", {
+      tool_id: "panel_checker",
+      selected_upgrade_count: selected.length,
+    });
 
     let uploadFile = file;
     try {
@@ -118,6 +157,11 @@ function PanelCheckerInner() {
       setApiError(
         "Couldn't reach the analysis service. Fill in the panel details below — your selected upgrades are already factored in.",
       );
+      trackEvent("panel_checker_analyze_fallback", {
+        tool_id: "panel_checker",
+        reason: "network_error",
+        selected_upgrade_count: selected.length,
+      });
       setResponseFromFallback(
         "Network error — couldn't reach the AI vision service.",
         selected,
@@ -144,6 +188,12 @@ function PanelCheckerInner() {
           ? "The analysis service is having a moment. Fill in the panel details below — your selected upgrades are already factored in."
           : "Unexpected response from server. Please try again.",
       );
+      trackEvent("panel_checker_analyze_fallback", {
+        tool_id: "panel_checker",
+        reason: "non_json_response",
+        status_code: res.status,
+        selected_upgrade_count: selected.length,
+      });
       setResponseFromFallback(
         "Service returned a non-JSON response.",
         selected,
@@ -159,6 +209,13 @@ function PanelCheckerInner() {
       });
       if (data.warning) setApiWarning(data.warning);
       if (data.error && !res.ok) setApiError(data.error);
+      trackEvent("panel_checker_analyze_completed", {
+        tool_id: "panel_checker",
+        status_code: res.status,
+        confidence: data.analysis.overallConfidence,
+        recommendation_count: data.recommendations.options.length,
+        selected_upgrade_count: selected.length,
+      });
     } else {
       setApiError(
         data.error ||
@@ -166,6 +223,12 @@ function PanelCheckerInner() {
             ? "The analysis service isn't configured yet. Fill in the panel details below — your selected upgrades are already factored in."
             : "The AI couldn't read this image. Fill in the panel details below — your selected upgrades are already factored in."),
       );
+      trackEvent("panel_checker_analyze_fallback", {
+        tool_id: "panel_checker",
+        reason: data.error ? "api_error" : "unusable_ai_result",
+        status_code: res.status,
+        selected_upgrade_count: selected.length,
+      });
       setResponseFromFallback(
         data.error || "AI vision call did not return a usable result.",
         selected,
@@ -194,7 +257,7 @@ function PanelCheckerInner() {
       const sampleFile = new File([blob], "sample-panel.svg", {
         type: blob.type || "image/svg+xml",
       });
-      setFile(sampleFile);
+      setSelectedFile(sampleFile);
       setSelected(SAMPLE_SELECTED_UPGRADES);
       // Skip the API call — use a hardcoded sample so the demo always works.
       setResponse({
@@ -207,6 +270,10 @@ function PanelCheckerInner() {
       setApiWarning(
         "Showing a sample report. Upload your own photo to analyze your panel.",
       );
+      trackEvent("panel_checker_sample_loaded", {
+        tool_id: "panel_checker",
+        selected_upgrade_count: SAMPLE_SELECTED_UPGRADES.length,
+      });
     } catch (err) {
       console.error("[panel-checker] sample load failed:", err);
       setUploadError(
@@ -216,6 +283,10 @@ function PanelCheckerInner() {
   }
 
   function handlePrint() {
+    trackEvent("panel_checker_print_clicked", {
+      tool_id: "panel_checker",
+      has_results: Boolean(response),
+    });
     if (typeof window !== "undefined") window.print();
   }
 
